@@ -49,27 +49,19 @@ export function useNavData() {
       // OVERVIEW
       // ----------------------------------------------------------------------
       {
-        subheader: 'overview v5.6.0',
-        items: [
-          { title: 'one', path: paths.dashboard.root, icon: ICONS.dashboard },
-          { title: 'two', path: paths.dashboard.two, icon: ICONS.ecommerce },
-          {
-            title: 'three',
-            path: paths.dashboard.three,
-            icon: ICONS.analytics,
-          },
-        ],
+        subheader: 'Mock Process',
+        items: [{ title: 'Payment', path: paths.dashboard.root, icon: ICONS.ecommerce }],
       },
 
       // MANAGEMENT
       // ----------------------------------------------------------------------
       {
-        subheader: 'management',
+        subheader: 'Management',
         items: [
           {
-            title: 'user',
+            title: 'Dashboard',
             path: paths.dashboard.group.root,
-            icon: ICONS.user,
+            icon: ICONS.dashboard,
             children: [
               { title: 'four', path: paths.dashboard.group.root },
               { title: 'five', path: paths.dashboard.group.five },
