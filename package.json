@@ -1,5 +1,5 @@
 {
-  "name": "@AuthGate",
+  "name": "authgate",
   "author": "Yuyan Lei, Cuichan Wu, Zhongyi Lu",
   "version": "5.6.0",
   "description": "Auth Gate website",
