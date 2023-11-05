@@ -176,7 +176,7 @@ export default function Checkout() {
                   {activeStep === 1 && <CheckoutStepTwo />}
 
                   {/*page 3*/}
-                  {activeStep === 2 ? (
+                  {activeStep === 2 && (
                     <>
                       <Box
                         sx={{
@@ -438,8 +438,6 @@ export default function Checkout() {
                         </div>
                       </Box>
                     </>
-                  ) : (
-                    <React.Fragment></React.Fragment>
                   )}
 
                   {/*------------------buttons------------------*/}
@@ -496,7 +494,7 @@ export default function Checkout() {
                       <Button color="inherit" disabled={activeStep === 2} onClick={handleBack}>
                         {activeStep === 1 ? 'Back' : ''}
                       </Button>
-                      <Box sx={{ flex: '1 1 auto' }} />
+                      <Box sx={{ width: '30%' }} />
 
                       {activeStep === 0 && (
                         <Button variant={'contained'} onClick={handleNext}>
