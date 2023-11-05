@@ -480,7 +480,7 @@ export default function Checkout() {
                         disabled={activeStep === 2 || activeStep === 3}
                         onClick={handleBack}
                       >
-                        {activeStep === 0 || activeStep === 1 ? 'Back' : ''}
+                        {activeStep === 1 ? 'Back' : ''}
                       </Button>
                     </Box>
                   )}
@@ -500,7 +500,7 @@ export default function Checkout() {
                         disabled={activeStep === 2 || activeStep === 3}
                         onClick={handleBack}
                       >
-                        {activeStep === 0 || activeStep === 1 ? 'Back' : ''}
+                        {activeStep === 1 ? 'Back' : ''}
                       </Button>
                       <Box sx={{ flex: '1 1 auto' }} />
 
