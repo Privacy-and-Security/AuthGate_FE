@@ -84,10 +84,6 @@ export default function Checkout() {
 
   // const navigate = useNavigate();
   const handleBack = () => {
-    if (activeStep === 0) {
-      // navigate('/groups');
-      return;
-    }
     if (activeStep === 1) {
       const confirmed = window.confirm('You will lose your selection. Are you sure to leave?');
       if (confirmed) {
@@ -161,7 +157,7 @@ export default function Checkout() {
               </Stepper>
               {activeStep === steps.length ? (
                 <React.Fragment>
-                  <Typography sx={{ mt: 2, mb: 1 }}>
+                  <Typography sx={{ mt: 2, mb: 1, display: 'flex', justifyContent: 'center' }}>
                     All steps completed - you&apos;re finished
                   </Typography>
                   <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
@@ -174,10 +170,10 @@ export default function Checkout() {
                   {/*Body content*/}
 
                   {/*page 1*/}
-                  {activeStep === 0 ? <CheckoutStepOne /> : <React.Fragment></React.Fragment>}
+                  {activeStep === 0 && <CheckoutStepOne />}
 
                   {/*page 2*/}
-                  {activeStep === 1 ? <CheckoutStepTwo /> : <React.Fragment></React.Fragment>}
+                  {activeStep === 1 && <CheckoutStepTwo />}
 
                   {/*page 3*/}
                   {activeStep === 2 ? (
@@ -490,16 +486,14 @@ export default function Checkout() {
                       sx={{
                         display: 'flex',
                         flexDirection: { xs: 'column', sm: 'row' },
-                        pt: 2,
-                        ml: 'auto',
-                        mr: 'auto',
+                        pt: 5,
+                        // ml: 'auto',
+                        // mr: 'auto',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                       }}
                     >
-                      <Button
-                        color="inherit"
-                        disabled={activeStep === 2 || activeStep === 3}
-                        onClick={handleBack}
-                      >
+                      <Button color="inherit" disabled={activeStep === 2} onClick={handleBack}>
                         {activeStep === 1 ? 'Back' : ''}
                       </Button>
                       <Box sx={{ flex: '1 1 auto' }} />

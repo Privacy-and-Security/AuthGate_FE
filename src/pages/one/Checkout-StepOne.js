@@ -20,19 +20,23 @@ export default function CheckoutStepOne() {
         spacing={5}
         sx={{
           justifyContent: 'center',
-          alignItems: 'stretch',
+          alignItems: 'center',
         }}
       >
         <Grid item xs={12} sm={12} md={6}>
           {/* <Card sx={{ minWidth: 350 }}>
             <CardContent> */}
-          <Typography variant="h4" component="div" sx={{ display: 'flex' }}>
+          <Typography
+            variant="h4"
+            component="div"
+            sx={{ display: 'flex', justifyContent: 'center' }}
+          >
             Start to Checkout
           </Typography>
           <Typography
             variant="body2"
             component="div"
-            sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 3 }}
+            sx={{ display: 'flex', justifyContent: 'center', marginTop: 3 }}
           >
             Number of Items 这行字我看不见写了啥，截图看不清
           </Typography>
