@@ -79,7 +79,7 @@ export default function JwtRegisterView() {
 
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 5, position: 'relative' }}>
-      <Typography variant="h4">Get started absolutely free</Typography>
+      <Typography variant="h4">Create Your Account</Typography>
 
       <Stack direction="row" spacing={0.5}>
         <Typography variant="body2"> Already have an account? </Typography>
@@ -118,16 +118,28 @@ export default function JwtRegisterView() {
       <Stack spacing={2.5}>
         {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
 
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <RHFTextField name="firstName" label="First name" />
-          <RHFTextField name="lastName" label="Last name" />
-        </Stack>
+        <RHFTextField name="nickName" label="Nickname" />
 
         <RHFTextField name="email" label="Email address" />
 
         <RHFTextField
           name="password"
           label="Password"
+          type={password.value ? 'text' : 'password'}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={password.onToggle} edge="end">
+                  <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+
+        <RHFTextField
+          name="confirmPassword"
+          label="Confirm Password"
           type={password.value ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
@@ -148,7 +160,7 @@ export default function JwtRegisterView() {
           variant="contained"
           loading={isSubmitting}
         >
-          Create account
+          Sign Up
         </LoadingButton>
       </Stack>
     </FormProvider>
