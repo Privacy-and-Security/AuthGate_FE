@@ -24,6 +24,9 @@ import { PATH_AFTER_LOGIN } from 'src/config-global';
 
 import Iconify from 'src/components/iconify';
 import FormProvider, { RHFTextField } from 'src/components/hook-form';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../../firebaseUtils/firebase-setup';
+import { createUser } from '../../../firebaseUtils/user';
 
 // ----------------------------------------------------------------------
 
@@ -41,17 +44,17 @@ export default function JwtRegisterView() {
   const password = useBoolean();
 
   const RegisterSchema = Yup.object().shape({
-    firstName: Yup.string().required('First name required'),
-    lastName: Yup.string().required('Last name required'),
+    nickname: Yup.string().required('Nickname required'),
     email: Yup.string().required('Email is required').email('Email must be a valid email address'),
     password: Yup.string().required('Password is required'),
+    confirmPassword: Yup.string().required('Confirm password is required'),
   });
 
   const defaultValues = {
-    firstName: '',
-    lastName: '',
+    nickname: '',
     email: '',
     password: '',
+    confirmPassword: '',
   };
 
   const methods = useForm({
@@ -65,17 +68,35 @@ export default function JwtRegisterView() {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = handleSubmit(async (data) => {
-    try {
-      await register?.(data.email, data.password, data.firstName, data.lastName);
+  // const onSubmit = handleSubmit(async (data) => {
+  //   try {
+  //     await register?.(data.email, data.password, data.firstName, data.lastName);
 
-      router.push(returnTo || PATH_AFTER_LOGIN);
-    } catch (error) {
-      console.error(error);
-      reset();
-      setErrorMsg(typeof error === 'string' ? error : error.message);
-    }
-  });
+  //     router.push(returnTo || PATH_AFTER_LOGIN);
+  //   } catch (error) {
+  //     console.error(error);
+  //     reset();
+  //     setErrorMsg(typeof error === 'string' ? error : error.message);
+  //   }
+  // });
+
+  const onSubmit = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        return user.email;
+      })
+      .then((email) => {
+        return createUser(email);
+      })
+      // .then(() => navigation.navigate('Home'))
+      .catch((error) => {
+        const errorMessage = error.message;
+        Alert.alert('SignUp Failed', errorMessage);
+      });
+  };
 
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 5, position: 'relative' }}>
@@ -118,13 +139,14 @@ export default function JwtRegisterView() {
       <Stack spacing={2.5}>
         {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
 
-        <RHFTextField name="nickName" label="Nickname" />
+        <RHFTextField name="nickname" label="Nickname" />
 
         <RHFTextField name="email" label="Email address" />
 
         <RHFTextField
           name="password"
           label="Password"
+          id="password"
           type={password.value ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
@@ -139,6 +161,7 @@ export default function JwtRegisterView() {
 
         <RHFTextField
           name="confirmPassword"
+          id="confirmPassword"
           label="Confirm Password"
           type={password.value ? 'text' : 'password'}
           InputProps={{
@@ -160,7 +183,7 @@ export default function JwtRegisterView() {
           variant="contained"
           loading={isSubmitting}
         >
-          Sign Up
+          SIGN UP
         </LoadingButton>
       </Stack>
     </FormProvider>

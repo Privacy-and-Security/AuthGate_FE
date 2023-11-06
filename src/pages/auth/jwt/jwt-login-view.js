@@ -120,7 +120,7 @@ export default function JwtLoginView() {
         variant="contained"
         loading={isSubmitting}
       >
-        Login
+        SIGN IN
       </LoadingButton>
     </Stack>
   );
