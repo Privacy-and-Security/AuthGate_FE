@@ -113,7 +113,7 @@ export default function Checkout() {
 
   return (
     <>
-      {/* <Header onOpenNav={handleOpen} /> */}
+      <Header onOpenNav={handleOpen} />
       {/*-------Box is the layout of the whole page-----*/}
       <Box
         sx={{
@@ -457,17 +457,17 @@ export default function Checkout() {
                       }}
                     >
                       {activeStep === 0 && (
-                        <Button variant={'contained'} onClick={handleNext}>
+                        <Button variant={'contained'} color="primary" onClick={handleNext}>
                           Next
                         </Button>
                       )}
                       {activeStep === 1 && (
-                        <Button variant={'contained'} onClick={handleNext}>
+                        <Button variant={'contained'} color="primary" onClick={handleNext}>
                           Complete
                         </Button>
                       )}
                       {activeStep === 2 && (
-                        <Button variant={'contained'} onClick={handleNext}>
+                        <Button variant={'contained'} color="primary" onClick={handleNext}>
                           Make a new payment
                         </Button>
                       )}
@@ -505,17 +505,17 @@ export default function Checkout() {
                       {activeStep === 1 && <Box sx={{ width: '30%' }} />}
 
                       {activeStep === 0 && (
-                        <Button variant={'contained'} onClick={handleNext}>
+                        <Button variant={'contained'} color="primary" onClick={handleNext}>
                           Next
                         </Button>
                       )}
                       {activeStep === 1 && (
-                        <Button variant={'contained'} onClick={handleNext}>
+                        <Button variant={'contained'} color="primary" onClick={handleNext}>
                           Complete
                         </Button>
                       )}
                       {activeStep === 2 && (
-                        <Button variant={'contained'} onClick={handleNext}>
+                        <Button variant={'contained'} color="primary" onClick={handleNext}>
                           Make a new payment
                         </Button>
                       )}
