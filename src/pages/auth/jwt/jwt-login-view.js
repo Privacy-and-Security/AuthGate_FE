@@ -114,7 +114,7 @@ export default function JwtLoginView() {
 
       <LoadingButton
         fullWidth
-        color="inherit"
+        color="primary"
         size="large"
         type="submit"
         variant="contained"

@@ -113,7 +113,7 @@ export default function Checkout() {
 
   return (
     <>
-      <Header onOpenNav={handleOpen} />
+      {/* <Header onOpenNav={handleOpen} /> */}
       {/*-------Box is the layout of the whole page-----*/}
       <Box
         sx={{

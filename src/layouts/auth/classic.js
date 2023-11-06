@@ -18,6 +18,19 @@ export default function AuthClassicLayout({ children, image, title }) {
 
   const mdUp = useResponsive('up', 'md');
 
+  const containerStyle = {
+    backgroundImage: `url(${image || '/assets/illustrations/authGate.png'})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'end',
+    flexDirection: 'column',
+    color: 'white',
+  };
+
   const renderLogo = (
     <Logo
       sx={{
@@ -31,9 +44,9 @@ export default function AuthClassicLayout({ children, image, title }) {
   const renderContent = (
     <Stack
       sx={{
-        width: 1,
+        width: '60%',
         mx: 'auto',
-        maxWidth: 480,
+        maxWidth: 700,
         px: { xs: 2, md: 8 },
         pt: { xs: 15, md: 20 },
         pb: { xs: 15, md: 0 },
@@ -59,22 +72,15 @@ export default function AuthClassicLayout({ children, image, title }) {
         }),
       }}
     >
-      <Typography variant="h3" sx={{ maxWidth: 480, textAlign: 'center' }}>
-        {title || 'Hi, Welcome back'}
-      </Typography>
-
-      <Box
-        component="img"
-        alt="auth"
-        src={image || '/assets/illustrations/illustration_dashboard.png'}
-        sx={{
-          maxWidth: {
-            xs: 480,
-            lg: 560,
-            xl: 720,
-          },
-        }}
-      />
+      <Box component="div" sx={containerStyle}>
+        <Typography variant="h3">Welcome to</Typography>
+        <Typography variant="h2" color="primary" sx={{ mt: 1, mb: 3 }}>
+          AuthentiGate
+        </Typography>
+        <Typography variant="subtitle" sx={{ mb: 15 }}>
+          The ultimate end-to-end anti-fraud solution for signups &amp; payment
+        </Typography>
+      </Box>
     </Stack>
   );
 
@@ -88,9 +94,9 @@ export default function AuthClassicLayout({ children, image, title }) {
     >
       {renderLogo}
 
-      {mdUp && renderSection}
-
       {renderContent}
+
+      {mdUp && renderSection}
     </Stack>
   );
 }
