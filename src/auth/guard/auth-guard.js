@@ -6,20 +6,20 @@ import { useRouter } from 'src/routes/hooks';
 
 import { SplashScreen } from 'src/components/loading-screen';
 
-import { useAuthContext } from '../hooks';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 // ----------------------------------------------------------------------
 
 const loginPaths = {
-  jwt: paths.auth.jwt.login,
+  login: paths.auth.login,
 };
 
 // ----------------------------------------------------------------------
 
 export default function AuthGuard({ children }) {
-  const { loading } = useAuthContext();
+  const { isLoading } = useUser();
 
-  return <>{loading ? <SplashScreen /> : <Container> {children}</Container>}</>;
+  return <>{isLoading ? <SplashScreen /> : <Container> {children}</Container>}</>;
 }
 
 AuthGuard.propTypes = {
@@ -31,17 +31,17 @@ AuthGuard.propTypes = {
 function Container({ children }) {
   const router = useRouter();
 
-  const { authenticated, method } = useAuthContext();
+  const { user, error, isLoading } = useUser();
 
   const [checked, setChecked] = useState(false);
 
   const check = useCallback(() => {
-    if (!authenticated) {
+    if (!user) {
       const searchParams = new URLSearchParams({
         returnTo: window.location.pathname,
       }).toString();
 
-      const loginPath = loginPaths[method];
+      const loginPath = paths.auth.login;
 
       const href = `${loginPath}?${searchParams}`;
 
@@ -49,7 +49,7 @@ function Container({ children }) {
     } else {
       setChecked(true);
     }
-  }, [authenticated, method, router]);
+  }, [user, error, isLoading, router]);
 
   useEffect(() => {
     check();

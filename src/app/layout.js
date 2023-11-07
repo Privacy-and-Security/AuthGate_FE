@@ -12,7 +12,7 @@ import ProgressBar from 'src/components/progress-bar';
 import { MotionLazy } from 'src/components/animate/motion-lazy';
 import { SettingsDrawer, SettingsProvider } from 'src/components/settings';
 
-import { AuthProvider } from 'src/auth/context/jwt';
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 
 // ----------------------------------------------------------------------
 
@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={primaryFont.className}>
       <body>
-        <AuthProvider>
+        <UserProvider>
           <SettingsProvider
             defaultSettings={{
               themeMode: 'light', // 'light' | 'dark'
@@ -55,7 +55,7 @@ export default function RootLayout({ children }) {
               </MotionLazy>
             </ThemeProvider>
           </SettingsProvider>
-        </AuthProvider>
+        </UserProvider>
       </body>
     </html>
   );
