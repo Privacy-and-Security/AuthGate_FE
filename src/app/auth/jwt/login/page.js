@@ -1,5 +1,3 @@
-import { JwtLoginView } from 'src/pages/auth/jwt';
-
 // ----------------------------------------------------------------------
 
 export const metadata = {
@@ -7,5 +5,5 @@ export const metadata = {
 };
 
 export default function LoginPage() {
-  return <JwtLoginView />;
+  return <div />;
 }

@@ -1,5 +1,3 @@
-import { JwtRegisterView } from 'src/pages/auth/jwt';
-
 // ----------------------------------------------------------------------
 
 export const metadata = {
@@ -7,5 +5,5 @@ export const metadata = {
 };
 
 export default function RegisterPage() {
-  return <JwtRegisterView />;
+  return <div />;
 }
