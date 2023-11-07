@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import dayjs from 'dayjs';
 import { useState } from 'react';
-// import { Controller, useForm, useFormContext } from 'react-hook-form';
+import { Controller, useForm, useFormContext } from 'react-hook-form';
 // import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 // import RHFTextFieldGoogle from './RHFTextFieldGoogle';
@@ -26,25 +26,26 @@ export default function FormGroupStepTwo() {
 
   // ---- handle the new group object ---
   const defaultValues = {
-    groupName: '',
-    receiverName: '',
-    pickupLocation: null,
-    phoneNumber: '',
-    endDate: null,
+    name: '',
+    cardNumber: '',
+    cvv: '',
+    expireDate: null,
+    zipCode: '',
   };
 
   // validation schema
   const NewGroupSchema = Yup.object().shape({
-    groupName: Yup.string().required('Required'),
-    receiverName: Yup.string().required('Required'),
-    phoneNumber: Yup.string().required('Required'),
-    endDate: Yup.date().required('Required'),
+    name: Yup.string().required('Required'),
+    cardNumber: Yup.string().required('Required'),
+    cvv: Yup.string().required('Required'),
+    expireDate: Yup.date().required('Required'),
+    zipCode: Yup.string().required('Required'),
   });
 
-  // const methods = useForm({
-  //   resolver: yupResolver(NewGroupSchema),
-  //   defaultValues,
-  // });
+  const methods = useForm({
+    resolver: yupResolver(NewGroupSchema),
+    defaultValues,
+  });
 
   const [selectedDate, setSelectedDate] = useState(null);
 
@@ -53,14 +54,12 @@ export default function FormGroupStepTwo() {
     setSelectedDate(date);
   };
 
-  // const { handleSubmit, setValue } = methods;
+  const { handleSubmit, setValue } = methods;
   const handlePickupLocationChange = (d) => {
     const values = methods.getValues();
-    setValue('pickupLocation', { ...values.pickupLocation, address: d });
+    setValue('paymentInfo', { ...values, d });
     onPickupLocationChange(d);
   };
-
-  // const { control } = useFormContext();
 
   return (
     <>
