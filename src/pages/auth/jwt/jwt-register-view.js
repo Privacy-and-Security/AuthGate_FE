@@ -80,7 +80,8 @@ export default function JwtRegisterView() {
   //   }
   // });
 
-  const onSubmit = () => {
+  const onSubmit = async (data) => {
+    const { email, password } = data;
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
@@ -135,11 +136,9 @@ export default function JwtRegisterView() {
   );
 
   const renderForm = (
-    <FormProvider methods={methods} onSubmit={onSubmit}>
+    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={2.5}>
         {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
-
-        <RHFTextField name="nickname" label="Nickname" />
 
         <RHFTextField name="email" label="Email address" />
 
