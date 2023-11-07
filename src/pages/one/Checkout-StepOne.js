@@ -27,7 +27,7 @@ export default function CheckoutStepOne() {
           {/* <Card sx={{ minWidth: 350 }}>
             <CardContent> */}
           <Typography
-            variant="h4"
+            variant="h3"
             component="div"
             sx={{ display: 'flex', justifyContent: 'center' }}
           >
@@ -36,9 +36,16 @@ export default function CheckoutStepOne() {
           <Typography
             variant="body2"
             component="div"
-            sx={{ display: 'flex', justifyContent: 'center', marginTop: 3 }}
+            sx={{ display: 'flex', justifyContent: 'center', marginTop: 3, color: '#5D5D5B' }}
           >
-            Number of Items 这行字我看不见写了啥，截图看不清
+            This page will simulate a user payment process.
+          </Typography>
+          <Typography
+            variant="body2"
+            component="div"
+            sx={{ display: 'flex', justifyContent: 'center', marginTop: 1, color: '#5D5D5B' }}
+          >
+            Enjoy the experience!
           </Typography>
 
           {/* </CardContent>

@@ -1,7 +1,6 @@
 import { m } from 'framer-motion';
 
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import { alpha } from '@mui/material/styles';
@@ -13,8 +12,6 @@ import { useRouter } from 'src/routes/hooks';
 
 import { useMockedUser } from 'src/hooks/use-mocked-user';
 
-import { useAuthContext } from 'src/auth/hooks';
-
 import { varHover } from 'src/components/animate';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
@@ -25,15 +22,12 @@ export default function AccountPopover() {
 
   const { user } = useMockedUser();
 
-  const { logout } = useAuthContext();
-
   const popover = usePopover();
 
   const handleLogout = async () => {
     try {
-      await logout();
       popover.onClose();
-      router.replace('/');
+      window.location.href = '/api/auth/logout/';
     } catch (error) {
       console.error(error);
     }

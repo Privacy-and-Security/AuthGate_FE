@@ -113,7 +113,7 @@ export default function Checkout() {
 
   return (
     <>
-      <Header onOpenNav={handleOpen} />
+      {/* <Header onOpenNav={handleOpen} /> */}
       {/*-------Box is the layout of the whole page-----*/}
       <Box
         sx={{
@@ -142,7 +142,7 @@ export default function Checkout() {
                   display: 'flex',
                   justifyContent: 'center',
                   // alignItems: 'center',
-                  mb: 5,
+                  mb: 10,
                 }}
               >
                 {steps.map((label, index) => {
@@ -160,8 +160,10 @@ export default function Checkout() {
                   <Typography sx={{ mt: 2, mb: 1, display: 'flex', justifyContent: 'center' }}>
                     All steps completed - you&apos;re finished
                   </Typography>
-                  <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                    <Box sx={{ flex: '1 1 auto' }} />
+                  <Box
+                    sx={{ display: 'flex', flexDirection: 'row', pt: 5, justifyContent: 'center' }}
+                  >
+                    {/* <Box sx={{ flex: '1 1 auto' }} /> */}
                     <Button onClick={handleReset}>Reset</Button>
                   </Box>
                 </React.Fragment>
@@ -193,6 +195,7 @@ export default function Checkout() {
                             alignItems: 'center',
                             flexDirection: 'column',
                             display: 'flex',
+                            mt: 2,
                           }}
                         >
                           <div
@@ -205,8 +208,11 @@ export default function Checkout() {
                               height: '100%',
                             }}
                           >
-                            <Typography variant="caption" style={{ color: '#C2C0C0' }}>
-                              这行字我也看不清～～～～
+                            <Typography variant="caption" style={{ color: '#5D5D5B' }}>
+                              Congratulations!
+                            </Typography>
+                            <Typography variant="caption" style={{ color: '#5D5D5B' }}>
+                              Your payment has been processed!
                             </Typography>
                           </div>
                         </Box>
@@ -453,22 +459,23 @@ export default function Checkout() {
                       }}
                     >
                       {activeStep === 0 && (
-                        <Button variant={'contained'} onClick={handleNext}>
+                        <Button variant={'contained'} color="primary" onClick={handleNext}>
                           Next
                         </Button>
                       )}
                       {activeStep === 1 && (
-                        <Button variant={'contained'} onClick={handleNext}>
+                        <Button variant={'contained'} color="primary" onClick={handleNext}>
                           Complete
                         </Button>
                       )}
                       {activeStep === 2 && (
-                        <Button variant={'contained'} onClick={handleNext}>
+                        <Button variant={'contained'} color="primary" onClick={handleNext}>
                           Make a new payment
                         </Button>
                       )}
 
-                      <Box sx={{ flex: '1 1 auto' }} />
+                      {activeStep === 1 && <Box sx={{ flex: '1 1 auto' }} />}
+
                       <Button
                         color="inherit"
                         disabled={activeStep === 2 || activeStep === 3}
@@ -491,23 +498,26 @@ export default function Checkout() {
                         alignItems: 'center',
                       }}
                     >
-                      <Button color="inherit" disabled={activeStep === 2} onClick={handleBack}>
-                        {activeStep === 1 ? 'Back' : ''}
-                      </Button>
-                      <Box sx={{ width: '30%' }} />
+                      {activeStep === 1 && (
+                        <Button color="inherit" onClick={handleBack}>
+                          Back
+                        </Button>
+                      )}
+
+                      {activeStep === 1 && <Box sx={{ width: '30%' }} />}
 
                       {activeStep === 0 && (
-                        <Button variant={'contained'} onClick={handleNext}>
+                        <Button variant={'contained'} color="primary" onClick={handleNext}>
                           Next
                         </Button>
                       )}
                       {activeStep === 1 && (
-                        <Button variant={'contained'} onClick={handleNext}>
+                        <Button variant={'contained'} color="primary" onClick={handleNext}>
                           Complete
                         </Button>
                       )}
                       {activeStep === 2 && (
-                        <Button variant={'contained'} onClick={handleNext}>
+                        <Button variant={'contained'} color="primary" onClick={handleNext}>
                           Make a new payment
                         </Button>
                       )}
