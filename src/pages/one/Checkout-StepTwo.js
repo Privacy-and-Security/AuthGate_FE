@@ -114,7 +114,12 @@ export default function FormGroupStepTwo() {
         >
           <Stack sx={{ width: '100%' }}>
             <Typography variant="h6">Name</Typography>
-            <TextField required name="name" id="outlined-required" placeholder="eg. Tony Swift" />
+            <RHFTextField
+              required
+              name="name"
+              id="outlined-required"
+              placeholder="eg. Tony Swift"
+            />
           </Stack>
 
           <Stack
@@ -130,20 +135,20 @@ export default function FormGroupStepTwo() {
           >
             <Stack>
               <Typography variant="h6">Card Number</Typography>
-              <TextField
+              <RHFTextField
                 required
                 name="cardNumber"
-                id="outlined-required"
+                id="cardNumber"
                 placeholder="1234-1234-1234-1234"
                 style={{ marginBottom: 15 }}
               />
             </Stack>
             <Stack>
               <Typography variant="h6">CVV</Typography>
-              <TextField
+              <RHFTextField
                 required
                 name="cvv"
-                id="outlined-required"
+                id="cvv"
                 placeholder="eg. 000"
                 style={{ marginBottom: 15 }}
               />
@@ -162,20 +167,20 @@ export default function FormGroupStepTwo() {
           >
             <Stack>
               <Typography variant="h6">Expiration Date</Typography>
-              <TextField
+              <RHFTextField
                 required
                 name="expireDate"
-                id="outlined-required"
+                id="expireDate"
                 placeholder="eg. 123-456-7890"
                 style={{ marginBottom: 15 }}
               />
             </Stack>
             <Stack>
               <Typography variant="h6">Zip code</Typography>
-              <TextField
+              <RHFTextField
                 required
                 name="zipCode"
-                id="outlined-required"
+                id="zipCode"
                 placeholder="eg. 97000"
                 style={{ marginBottom: 15 }}
               />
