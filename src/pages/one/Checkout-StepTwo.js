@@ -25,13 +25,13 @@ export default function FormGroupStepTwo() {
   // console.log("currentUser", currentUser)
 
   // ---- handle the new group object ---
-  const defaultValues = {
-    name: '',
-    cardNumber: '',
-    cvv: '',
-    expireDate: null,
-    zipCode: '',
-  };
+  // const defaultValues = {
+  //   name: '',
+  //   cardNumber: '',
+  //   cvv: '',
+  //   expireDate: null,
+  //   zipCode: '',
+  // };
 
   // validation schema
   // const NewGroupSchema = Yup.object().shape({
@@ -42,32 +42,32 @@ export default function FormGroupStepTwo() {
   //   zipCode: Yup.string().required('Required'),
   // });
 
-  const NewGroupSchema = Yup.object().shape({
-    name: Yup.string(),
-    cardNumber: Yup.string(),
-    cvv: Yup.string(),
-    expireDate: Yup.string(),
-    zipCode: Yup.string(),
-  });
+  // const NewGroupSchema = Yup.object().shape({
+  //   name: Yup.string(),
+  //   cardNumber: Yup.string(),
+  //   cvv: Yup.string(),
+  //   expireDate: Yup.string(),
+  //   zipCode: Yup.string(),
+  // });
 
-  const methods = useFormContext ({
-    resolver: yupResolver(NewGroupSchema),
-    defaultValues,
-  });
+  // const methods = useFormContext ({
+  //   resolver: yupResolver(NewGroupSchema),
+  //   defaultValues,
+  // });
 
   const [selectedDate, setSelectedDate] = useState(null);
 
-  const handleDateChange = (date) => {
-    onDateChange(date);
-    setSelectedDate(date);
-  };
+  // const handleDateChange = (date) => {
+  //   onDateChange(date);
+  //   setSelectedDate(date);
+  // };
 
-  const { handleSubmit, setValue } = methods;
-  const handlePickupLocationChange = (d) => {
-    const values = methods.getValues();
-    setValue('paymentInfo', { ...values, d });
-    onPickupLocationChange(d);
-  };
+  // const { handleSubmit, setValue } = methods;
+  // const handlePickupLocationChange = (d) => {
+  //   const values = methods.getValues();
+  //   setValue('paymentInfo', { ...values, d });
+  //   onPickupLocationChange(d);
+  // };
 
   return (
     <>
