@@ -8,15 +8,18 @@ import Typography from '@mui/material/Typography';
 import { useSettingsContext } from 'src/components/settings';
 import Checkout from './Checkout';
 
+// import { UserProvider } from '@auth0/nextjs-auth0';
+
 // ----------------------------------------------------------------------
 
 export default function OneView() {
   const settings = useSettingsContext();
 
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Checkout />
-      {/* <Box
+    // <UserProvider>
+      <Container maxWidth={settings.themeStretch ? false : 'xl'}>
+        <Checkout />
+        {/* <Box
         sx={{
           mt: 5,
           width: 1,
@@ -26,6 +29,7 @@ export default function OneView() {
           border: (theme) => `dashed 1px ${theme.palette.divider}`,
         }}
       /> */}
-    </Container>
+      </Container>
+    // </UserProvider>
   );
 }
