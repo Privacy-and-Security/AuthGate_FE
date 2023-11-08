@@ -153,13 +153,18 @@ export default function Checkout() {
     zipCode: Yup.string().required('Required'),
   });
 
+  // const methods = useForm({
+  //   resolver: yupResolver(NewGroupSchema), defaultValues,
+  // });
+
   const methods = useForm({
-    resolver: yupResolver(NewGroupSchema), defaultValues,
+    defaultValues,
   });
 
   const { handleSubmit, setValue } = methods;
 
   const onSubmit = (data) => {
+    console.log('form submitted');
     console.log(data);
   };
 
@@ -517,7 +522,7 @@ export default function Checkout() {
                           </Button>
                         )}
                         {activeStep === 1 && (
-                          <Button variant={'contained'} color="primary" onClick={handleNext}>
+                          <Button type='submit' variant={'contained'} color="primary">
                             Complete
                           </Button>
                         )}
@@ -565,7 +570,7 @@ export default function Checkout() {
                           </Button>
                         )}
                         {activeStep === 1 && (
-                          <Button variant={'contained'} color="primary" onClick={handleNext}>
+                          <Button type='submit' variant={'contained'} color="primary">
                             Complete
                           </Button>
                         )}

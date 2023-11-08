@@ -34,12 +34,20 @@ export default function FormGroupStepTwo() {
   };
 
   // validation schema
+  // const NewGroupSchema = Yup.object().shape({
+  //   name: Yup.string().required('Required'),
+  //   cardNumber: Yup.string().required('Required'),
+  //   cvv: Yup.string().required('Required'),
+  //   expireDate: Yup.string().required('Required'),
+  //   zipCode: Yup.string().required('Required'),
+  // });
+
   const NewGroupSchema = Yup.object().shape({
-    name: Yup.string().required('Required'),
-    cardNumber: Yup.string().required('Required'),
-    cvv: Yup.string().required('Required'),
-    expireDate: Yup.date().required('Required'),
-    zipCode: Yup.string().required('Required'),
+    name: Yup.string(),
+    cardNumber: Yup.string(),
+    cvv: Yup.string(),
+    expireDate: Yup.string(),
+    zipCode: Yup.string(),
   });
 
   const methods = useForm({
