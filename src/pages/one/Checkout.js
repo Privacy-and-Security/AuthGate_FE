@@ -53,22 +53,6 @@ export default function Checkout() {
   const [selectedParcels, setSelectedParcels] = useState([]);
   const [allowPurchase, setAllowPurchase] = useState(false);
 
-  const makePayment = async (parcel) => {
-    const response = await fetch('https://api.authgate.work/pay', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(parcel),
-    });
-
-    if (response.ok) {
-      console.log('Success:', response);
-    } else {
-      console.error('Error:', response);
-    }
-  }
-
   const handleNext = async () => {
     // if (activeStep === 0) {
     //   // if (selectedParcels.length === 0) {
@@ -86,6 +70,8 @@ export default function Checkout() {
       // } else {
       //   console.log('currentUser is already in the group');
       // }
+
+      setAllowPurchase(false);
 
       selectedParcels.map((selectedParcel) => {
         const newParcel = {
@@ -568,8 +554,9 @@ export default function Checkout() {
                           <Button
                             variant={'contained'}
                             color="primary"
-                            onClick={handleNext}
+                            // onClick={handleNext}
                             disabled={!allowPurchase}
+                            type='submit'
                           >
                             Complete
                           </Button>
@@ -621,8 +608,9 @@ export default function Checkout() {
                           <Button
                             variant={'contained'}
                             color="primary"
-                            onClick={handleNext}
+                            // onClick={handleNext}
                             disabled={!allowPurchase}
+                            type='submit'
                           >
                             Complete
                           </Button>
