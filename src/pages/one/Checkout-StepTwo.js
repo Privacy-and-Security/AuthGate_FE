@@ -50,7 +50,7 @@ export default function FormGroupStepTwo() {
     zipCode: Yup.string(),
   });
 
-  const methods = useForm({
+  const methods = useFormContext ({
     resolver: yupResolver(NewGroupSchema),
     defaultValues,
   });
