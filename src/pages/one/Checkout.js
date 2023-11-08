@@ -141,49 +141,50 @@ export default function Checkout() {
 
   return (
     <>
-      {/* <Header onOpenNav={handleOpen} /> */}
-      {/*-------Box is the layout of the whole page-----*/}
-      <Box
-        sx={{
-          display: { lg: 'flex' },
-          minHeight: { lg: 1 },
-        }}
-      >
-        {/*--------------Navigation bar------------------*/}
-        {/* <NavVertical openNav={open} onCloseNav={handleClose} /> */}
-        <Main>
-          <Container
-            maxWidth="xl"
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <Box sx={{ width: '100%', alignItems: 'center' }}>
-              <Stepper
-                activeStep={activeStep}
-                sx={{
-                  width: '50%',
-                  marginLeft: 'auto',
-                  marginRight: 'auto',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  // alignItems: 'center',
-                  mb: 10,
-                }}
-              >
-                {steps.map((label, index) => {
-                  const stepProps = {};
-                  const labelProps = {};
-                  return (
-                    <Step key={label} {...stepProps}>
-                      <StepLabel {...labelProps}>{label}</StepLabel>
-                    </Step>
-                  );
-                })}
-              </Stepper>
-              <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        {/* <Header onOpenNav={handleOpen} /> */}
+        {/*-------Box is the layout of the whole page-----*/}
+        <Box
+          sx={{
+            display: { lg: 'flex' },
+            minHeight: { lg: 1 },
+          }}
+        >
+          {/*--------------Navigation bar------------------*/}
+          {/* <NavVertical openNav={open} onCloseNav={handleClose} /> */}
+          <Main>
+            <Container
+              maxWidth="xl"
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+              <Box sx={{ width: '100%', alignItems: 'center' }}>
+                <Stepper
+                  activeStep={activeStep}
+                  sx={{
+                    width: '50%',
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    // alignItems: 'center',
+                    mb: 10,
+                  }}
+                >
+                  {steps.map((label, index) => {
+                    const stepProps = {};
+                    const labelProps = {};
+                    return (
+                      <Step key={label} {...stepProps}>
+                        <StepLabel {...labelProps}>{label}</StepLabel>
+                      </Step>
+                    );
+                  })}
+                </Stepper>
+
                 {activeStep === steps.length ? (
                   <React.Fragment>
                     <Typography sx={{ mt: 2, mb: 1, display: 'flex', justifyContent: 'center' }}>
@@ -583,11 +584,12 @@ export default function Checkout() {
                     )}
                   </React.Fragment>
                 )}
-              </FormProvider>
-            </Box>
-          </Container>
-        </Main>
-      </Box>
+
+              </Box>
+            </Container>
+          </Main>
+        </Box>
+      </FormProvider>
     </>
   );
 }
