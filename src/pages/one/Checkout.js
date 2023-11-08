@@ -19,7 +19,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import FormProvider from '../../@mui-library/components/hook-form';
 // import { useUser } from '@auth0/nextjs-auth0/client';
-import { AuthGuard } from 'src/auth/guard';
+// import { AuthGuard } from 'src/auth/guard';
 
 
 
@@ -183,7 +183,7 @@ export default function Checkout() {
 
   return (
     <>
-      <AuthGuard>
+      {/* <AuthGuard> */}
         {/* <Header onOpenNav={handleOpen} /> */}
         {/*-------Box is the layout of the whole page-----*/}
         <Box
@@ -631,7 +631,7 @@ export default function Checkout() {
             </Container>
           </Main>
         </Box>
-      </AuthGuard>
+      {/* </AuthGuard> */}
     </>
   );
 }
