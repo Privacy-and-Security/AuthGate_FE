@@ -21,6 +21,7 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm, useFormContext } from 'react-hook-form';
 import FormProvider from '../../@mui-library/components/hook-form';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 
 
@@ -163,9 +164,30 @@ export default function Checkout() {
 
   const { handleSubmit, setValue } = methods;
 
-  const onSubmit = (data) => {
-    console.log('form submitted');
+  const { user, error, isLoading } = useUser();
+
+  const sendData = async (data) => {
+    const response = await fetch('http://api.authgate.work/pay', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      console.log('Sent data to the server');
+    }
+  };
+
+  const onSubmit = async (data) => {
+    data = {
+      ...data,
+      user: user,
+    }
     console.log(data);
+    await sendData(data);
+    handleNext();
   };
 
   return (
