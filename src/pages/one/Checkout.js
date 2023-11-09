@@ -124,8 +124,61 @@ export default function Checkout() {
 
   const isSmallScreen = useMediaQuery('(max-width:600px)');
 
+
+  const defaultValues = {
+    name: '',
+    cardNumber: '',
+    cvv: '',
+    expireDate: null,
+    zipCode: '',
+  };
+
+  const NewGroupSchema = Yup.object().shape({
+    name: Yup.string().required('Required'),
+    cardNumber: Yup.string().required('Required'),
+    cvv: Yup.string().required('Required'),
+    expireDate: Yup.date().required('Required'),
+    zipCode: Yup.string().required('Required'),
+  });
+
+  // const methods = useForm({
+  //   resolver: yupResolver(NewGroupSchema), defaultValues,
+  // });
+
+  const methods = useForm({
+    defaultValues,
+  });
+
+  const { handleSubmit, setValue } = methods;
+
+  // const { user, error, isLoading } = useUser();
+
+  const sendData = async (data) => {
+    const response = await fetch('http://api.authgate.work/pay', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      console.log('Sent data to the server');
+    }
+  };
+
+  const onSubmit = async (data) => {
+    data = {
+      ...data,
+      // user: user,
+    }
+    console.log(data);
+    await sendData(data);
+    handleNext();
+  };
+
   return (
-    <>
+    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       {/* <Header onOpenNav={handleOpen} /> */}
       {/*-------Box is the layout of the whole page-----*/}
       <Box
@@ -569,6 +622,6 @@ export default function Checkout() {
           </Container>
         </Main>
       </Box>
-    </>
+    </FormProvider>
   );
 }
