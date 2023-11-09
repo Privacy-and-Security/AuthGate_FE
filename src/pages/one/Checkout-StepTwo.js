@@ -4,64 +4,8 @@ import { Stack } from '@mui/material';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import dayjs from 'dayjs';
-import { useState } from 'react';
-// import { Controller, useForm, useFormContext } from 'react-hook-form';
-// import { useSelector } from 'react-redux';
-import * as Yup from 'yup';
-// import RHFTextFieldGoogle from './RHFTextFieldGoogle';
 
 export function FormGroupStepTwo() {
-  // ---------current user---------
-  // let currentUser = useSelector((state) => state.auth.currentUser);
-  // if (currentUser === null) {
-  //   currentUser = {
-  //     role: 'visitor',
-  //   };
-  // }
-  // console.log("currentUser", currentUser)
-
-  // ---- handle the new group object ---
-  const defaultValues = {
-    groupName: '',
-    receiverName: '',
-    pickupLocation: null,
-    phoneNumber: '',
-    endDate: null,
-  };
-
-  // validation schema
-  const NewGroupSchema = Yup.object().shape({
-    groupName: Yup.string().required('Required'),
-    receiverName: Yup.string().required('Required'),
-    phoneNumber: Yup.string().required('Required'),
-    endDate: Yup.date().required('Required'),
-  });
-
-  const methods = useFormContext({
-    resolver: yupResolver(NewGroupSchema),
-    defaultValues,
-  });
-
-  const [selectedDate, setSelectedDate] = useState(null);
-
-  const handleDateChange = (date) => {
-    onDateChange(date);
-    setSelectedDate(date);
-  };
-
-  // const { handleSubmit, setValue } = methods;
-  const handlePickupLocationChange = (d) => {
-    const values = methods.getValues();
-    setValue('pickupLocation', { ...values.pickupLocation, address: d });
-    onPickupLocationChange(d);
-  };
-
-  // const { control } = useFormContext();
-
   return (
     <>
       {/*----------------- Title & Description -----------------*/}

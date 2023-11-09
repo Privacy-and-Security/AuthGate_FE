@@ -550,7 +550,7 @@ export default function Checkout() {
                         <Button
                           variant={'contained'}
                           color="primary"
-                          onClick={handleNext}
+                          type='submit'
                           disabled={!allowPurchase}
                         >
                           Complete
@@ -603,7 +603,7 @@ export default function Checkout() {
                         <Button
                           variant={'contained'}
                           color="primary"
-                          onClick={handleNext}
+                          type='submit'
                           disabled={!allowPurchase}
                         >
                           Complete
