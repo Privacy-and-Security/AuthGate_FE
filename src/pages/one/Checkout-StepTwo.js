@@ -1,17 +1,17 @@
-// import { yupResolver } from '@hookform/resolvers/yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { RHFTextField } from '../../@mui-library/components/hook-form';
 import { Stack } from '@mui/material';
 import Box from '@mui/material/Box';
-// import TextField from '@mui/material/TextField';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 // import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 // import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import dayjs from 'dayjs';
-// import { useState } from 'react';
+import { useState } from 'react';
 // import { Controller, useForm, useFormContext } from 'react-hook-form';
 // import { useSelector } from 'react-redux';
-// import * as Yup from 'yup';
+import * as Yup from 'yup';
 // import RHFTextFieldGoogle from './RHFTextFieldGoogle';
 
 export default function FormGroupStepTwo() {
@@ -25,49 +25,42 @@ export default function FormGroupStepTwo() {
   // console.log("currentUser", currentUser)
 
   // ---- handle the new group object ---
-  // const defaultValues = {
-  //   name: '',
-  //   cardNumber: '',
-  //   cvv: '',
-  //   expireDate: null,
-  //   zipCode: '',
-  // };
+  const defaultValues = {
+    groupName: '',
+    receiverName: '',
+    pickupLocation: null,
+    phoneNumber: '',
+    endDate: null,
+  };
 
   // validation schema
-  // const NewGroupSchema = Yup.object().shape({
-  //   name: Yup.string().required('Required'),
-  //   cardNumber: Yup.string().required('Required'),
-  //   cvv: Yup.string().required('Required'),
-  //   expireDate: Yup.string().required('Required'),
-  //   zipCode: Yup.string().required('Required'),
-  // });
+  const NewGroupSchema = Yup.object().shape({
+    groupName: Yup.string().required('Required'),
+    receiverName: Yup.string().required('Required'),
+    phoneNumber: Yup.string().required('Required'),
+    endDate: Yup.date().required('Required'),
+  });
 
-  // const NewGroupSchema = Yup.object().shape({
-  //   name: Yup.string(),
-  //   cardNumber: Yup.string(),
-  //   cvv: Yup.string(),
-  //   expireDate: Yup.string(),
-  //   zipCode: Yup.string(),
-  // });
-
-  // const methods = useFormContext ({
+  // const methods = useForm({
   //   resolver: yupResolver(NewGroupSchema),
   //   defaultValues,
   // });
 
-  // const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
 
-  // const handleDateChange = (date) => {
-  //   onDateChange(date);
-  //   setSelectedDate(date);
-  // };
+  const handleDateChange = (date) => {
+    onDateChange(date);
+    setSelectedDate(date);
+  };
 
   // const { handleSubmit, setValue } = methods;
-  // const handlePickupLocationChange = (d) => {
-  //   const values = methods.getValues();
-  //   setValue('paymentInfo', { ...values, d });
-  //   onPickupLocationChange(d);
-  // };
+  const handlePickupLocationChange = (d) => {
+    const values = methods.getValues();
+    setValue('pickupLocation', { ...values.pickupLocation, address: d });
+    onPickupLocationChange(d);
+  };
+
+  // const { control } = useFormContext();
 
   return (
     <>
@@ -114,12 +107,7 @@ export default function FormGroupStepTwo() {
         >
           <Stack sx={{ width: '100%' }}>
             <Typography variant="h6">Name</Typography>
-            <RHFTextField
-              required
-              name="name"
-              id="outlined-required"
-              placeholder="eg. Tony Swift"
-            />
+            <TextField required name="name" id="outlined-required" placeholder="eg. Tony Swift" />
           </Stack>
 
           <Stack
@@ -135,20 +123,20 @@ export default function FormGroupStepTwo() {
           >
             <Stack>
               <Typography variant="h6">Card Number</Typography>
-              <RHFTextField
+              <TextField
                 required
                 name="cardNumber"
-                id="cardNumber"
+                id="outlined-required"
                 placeholder="1234-1234-1234-1234"
                 style={{ marginBottom: 15 }}
               />
             </Stack>
             <Stack>
               <Typography variant="h6">CVV</Typography>
-              <RHFTextField
+              <TextField
                 required
                 name="cvv"
-                id="cvv"
+                id="outlined-required"
                 placeholder="eg. 000"
                 style={{ marginBottom: 15 }}
               />
@@ -167,20 +155,20 @@ export default function FormGroupStepTwo() {
           >
             <Stack>
               <Typography variant="h6">Expiration Date</Typography>
-              <RHFTextField
+              <TextField
                 required
                 name="expireDate"
-                id="expireDate"
+                id="outlined-required"
                 placeholder="eg. 123-456-7890"
                 style={{ marginBottom: 15 }}
               />
             </Stack>
             <Stack>
               <Typography variant="h6">Zip code</Typography>
-              <RHFTextField
+              <TextField
                 required
                 name="zipCode"
-                id="zipCode"
+                id="outlined-required"
                 placeholder="eg. 97000"
                 style={{ marginBottom: 15 }}
               />
