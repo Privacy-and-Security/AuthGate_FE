@@ -24,7 +24,6 @@ import { useForm } from 'react-hook-form';
 import FormProvider from '../../@mui-library/components/hook-form';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
-
 const steps = ['', '', ''];
 export default function Checkout() {
   const recaptchaRef = React.createRef();
@@ -124,7 +123,6 @@ export default function Checkout() {
 
   const isSmallScreen = useMediaQuery('(max-width:600px)');
 
-
   const defaultValues = {
     name: '',
     cardNumber: '',
@@ -171,7 +169,7 @@ export default function Checkout() {
     data = {
       ...data,
       user: user,
-    }
+    };
     console.log(data);
     await sendData(data);
     handleNext();
@@ -550,7 +548,7 @@ export default function Checkout() {
                         <Button
                           variant={'contained'}
                           color="primary"
-                          type='submit'
+                          type="submit"
                           disabled={!allowPurchase}
                         >
                           Complete
@@ -603,7 +601,7 @@ export default function Checkout() {
                         <Button
                           variant={'contained'}
                           color="primary"
-                          type='submit'
+                          type="submit"
                           disabled={!allowPurchase}
                         >
                           Complete
