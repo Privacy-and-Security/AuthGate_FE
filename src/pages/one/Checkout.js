@@ -17,7 +17,12 @@ import ReCAPTCHA from 'react-google-recaptcha';
 // import { updateParcelThunk } from 'redux/parcels/parcels-thunks';
 // import { findShipGroupByIdThunk, updateShipGroupThunk } from 'redux/shipGroups/shipGroups-thunks';
 import CheckoutStepOne from './Checkout-StepOne';
-import CheckoutStepTwo from './Checkout-StepTwo';
+import { FormGroupStepTwo } from './Checkout-StepTwo';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+import FormProvider from '../../@mui-library/components/hook-form';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 const steps = ['', '', ''];
 export default function Checkout() {
@@ -118,8 +123,60 @@ export default function Checkout() {
 
   const isSmallScreen = useMediaQuery('(max-width:600px)');
 
+  const defaultValues = {
+    name: '',
+    cardNumber: '',
+    cvv: '',
+    expireDate: null,
+    zipCode: '',
+  };
+
+  const NewGroupSchema = Yup.object().shape({
+    name: Yup.string().required('Required'),
+    cardNumber: Yup.string().required('Required'),
+    cvv: Yup.string().required('Required'),
+    expireDate: Yup.date().required('Required'),
+    zipCode: Yup.string().required('Required'),
+  });
+
+  // const methods = useForm({
+  //   resolver: yupResolver(NewGroupSchema), defaultValues,
+  // });
+
+  const methods = useForm({
+    defaultValues,
+  });
+
+  const { handleSubmit, setValue } = methods;
+
+  const { user, error, isLoading } = useUser();
+
+  const sendData = async (data) => {
+    const response = await fetch('https://api.authgate.work/pay', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      console.log('Sent data to the server');
+    }
+  };
+
+  const onSubmit = async (data) => {
+    data = {
+      ...data,
+      user: user,
+    };
+    console.log(data);
+    await sendData(data);
+    handleNext();
+  };
+
   return (
-    <>
+    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       {/* <Header onOpenNav={handleOpen} /> */}
       {/*-------Box is the layout of the whole page-----*/}
       <Box
@@ -182,7 +239,7 @@ export default function Checkout() {
                   {activeStep === 0 && <CheckoutStepOne />}
 
                   {/*page 2*/}
-                  {activeStep === 1 && <CheckoutStepTwo />}
+                  {activeStep === 1 && <FormGroupStepTwo />}
 
                   {/*page 3*/}
                   {activeStep === 2 && (
@@ -491,7 +548,7 @@ export default function Checkout() {
                         <Button
                           variant={'contained'}
                           color="primary"
-                          onClick={handleNext}
+                          type="submit"
                           disabled={!allowPurchase}
                         >
                           Complete
@@ -544,7 +601,7 @@ export default function Checkout() {
                         <Button
                           variant={'contained'}
                           color="primary"
-                          onClick={handleNext}
+                          type="submit"
                           disabled={!allowPurchase}
                         >
                           Complete
@@ -563,6 +620,6 @@ export default function Checkout() {
           </Container>
         </Main>
       </Box>
-    </>
+    </FormProvider>
   );
 }
