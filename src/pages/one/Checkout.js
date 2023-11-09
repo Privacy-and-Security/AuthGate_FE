@@ -151,7 +151,7 @@ export default function Checkout() {
 
   const { handleSubmit, setValue } = methods;
 
-  // const { user, error, isLoading } = useUser();
+  const { user, error, isLoading } = useUser();
 
   const sendData = async (data) => {
     const response = await fetch('http://api.authgate.work/pay', {
@@ -170,7 +170,7 @@ export default function Checkout() {
   const onSubmit = async (data) => {
     data = {
       ...data,
-      // user: user,
+      user: user,
     }
     console.log(data);
     await sendData(data);
