@@ -14,7 +14,7 @@ import { Controller, useForm, useFormContext } from 'react-hook-form';
 import * as Yup from 'yup';
 // import RHFTextFieldGoogle from './RHFTextFieldGoogle';
 
-export default function FormGroupStepTwo() {
+export function FormGroupStepTwo() {
   // ---------current user---------
   // let currentUser = useSelector((state) => state.auth.currentUser);
   // if (currentUser === null) {
@@ -50,7 +50,7 @@ export default function FormGroupStepTwo() {
     zipCode: Yup.string(),
   });
 
-  const methods = useFormContext ({
+  const methods = useFormContext({
     resolver: yupResolver(NewGroupSchema),
     defaultValues,
   });
@@ -191,3 +191,7 @@ export default function FormGroupStepTwo() {
     </>
   );
 }
+
+export default function CheckoutStepTwo() {
+  return <> </>
+};

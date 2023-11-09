@@ -13,7 +13,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import CheckoutStepOne from './Checkout-StepOne';
-import CheckoutStepTwo from './Checkout-StepTwo';
+import { FormGroupStepTwo } from './Checkout-StepTwo';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
@@ -245,7 +245,7 @@ export default function Checkout() {
                     {activeStep === 0 && <CheckoutStepOne />}
 
                     {/*page 2*/}
-                    {activeStep === 1 && <CheckoutStepTwo />}
+                    {activeStep === 1 && <FormGroupStepTwo />}
 
                     {/*page 3*/}
                     {activeStep === 2 && (
