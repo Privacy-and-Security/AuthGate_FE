@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import dayjs from 'dayjs';
 import { useState } from 'react';
-import { Controller, useForm, useFormContext } from 'react-hook-form';
+// import { Controller, useForm, useFormContext } from 'react-hook-form';
 // import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 // import RHFTextFieldGoogle from './RHFTextFieldGoogle';
@@ -26,28 +26,19 @@ export function FormGroupStepTwo() {
 
   // ---- handle the new group object ---
   const defaultValues = {
-    name: '',
-    cardNumber: '',
-    cvv: '',
-    expireDate: null,
-    zipCode: '',
+    groupName: '',
+    receiverName: '',
+    pickupLocation: null,
+    phoneNumber: '',
+    endDate: null,
   };
 
   // validation schema
-  // const NewGroupSchema = Yup.object().shape({
-  //   name: Yup.string().required('Required'),
-  //   cardNumber: Yup.string().required('Required'),
-  //   cvv: Yup.string().required('Required'),
-  //   expireDate: Yup.string().required('Required'),
-  //   zipCode: Yup.string().required('Required'),
-  // });
-
   const NewGroupSchema = Yup.object().shape({
-    name: Yup.string(),
-    cardNumber: Yup.string(),
-    cvv: Yup.string(),
-    expireDate: Yup.string(),
-    zipCode: Yup.string(),
+    groupName: Yup.string().required('Required'),
+    receiverName: Yup.string().required('Required'),
+    phoneNumber: Yup.string().required('Required'),
+    endDate: Yup.date().required('Required'),
   });
 
   const methods = useFormContext({
@@ -62,12 +53,14 @@ export function FormGroupStepTwo() {
     setSelectedDate(date);
   };
 
-  const { handleSubmit, setValue } = methods;
+  // const { handleSubmit, setValue } = methods;
   const handlePickupLocationChange = (d) => {
     const values = methods.getValues();
-    setValue('paymentInfo', { ...values, d });
+    setValue('pickupLocation', { ...values.pickupLocation, address: d });
     onPickupLocationChange(d);
   };
+
+  // const { control } = useFormContext();
 
   return (
     <>
@@ -114,12 +107,7 @@ export function FormGroupStepTwo() {
         >
           <Stack sx={{ width: '100%' }}>
             <Typography variant="h6">Name</Typography>
-            <RHFTextField
-              required
-              name="name"
-              id="outlined-required"
-              placeholder="eg. Tony Swift"
-            />
+            <TextField required name="name" id="outlined-required" placeholder="eg. Tony Swift" />
           </Stack>
 
           <Stack
@@ -135,20 +123,20 @@ export function FormGroupStepTwo() {
           >
             <Stack>
               <Typography variant="h6">Card Number</Typography>
-              <RHFTextField
+              <TextField
                 required
                 name="cardNumber"
-                id="cardNumber"
+                id="outlined-required"
                 placeholder="1234-1234-1234-1234"
                 style={{ marginBottom: 15 }}
               />
             </Stack>
             <Stack>
               <Typography variant="h6">CVV</Typography>
-              <RHFTextField
+              <TextField
                 required
                 name="cvv"
-                id="cvv"
+                id="outlined-required"
                 placeholder="eg. 000"
                 style={{ marginBottom: 15 }}
               />
@@ -167,20 +155,20 @@ export function FormGroupStepTwo() {
           >
             <Stack>
               <Typography variant="h6">Expiration Date</Typography>
-              <RHFTextField
+              <TextField
                 required
                 name="expireDate"
-                id="expireDate"
+                id="outlined-required"
                 placeholder="eg. 123-456-7890"
                 style={{ marginBottom: 15 }}
               />
             </Stack>
             <Stack>
               <Typography variant="h6">Zip code</Typography>
-              <RHFTextField
+              <TextField
                 required
                 name="zipCode"
-                id="zipCode"
+                id="outlined-required"
                 placeholder="eg. 97000"
                 style={{ marginBottom: 15 }}
               />
