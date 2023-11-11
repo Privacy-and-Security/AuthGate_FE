@@ -27,66 +27,22 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 const steps = ['', '', ''];
 export default function Checkout() {
   const recaptchaRef = React.createRef();
-  // const dispatch = useDispatch();
   const [activeStep, setActiveStep] = React.useState(0);
-  // const location = useLocation();
-  // const searchParams = new URLSearchParams(location.search);
-  // const groupId = searchParams.get('groupId');
 
-  // ---------current user---------
-  // const currentUser = useSelector((state) => state.auth.currentUser || { role: 'visitor' });
-
-  // const { parcels, loading } = useSelector((state) => {
-  //   return state.parcels;
-  // });
-
-  // const currentGroup = useSelector((state) => {
-  //   return state.shipGroup.currentGroup;
-  // });
-
-  // useEffect(() => {
-  //   dispatch(findShipGroupByIdThunk(groupId));
-  // }, []);
-
-  // const currentUserParcels = parcels.filter(
-  //   (parcel) => parcel.user === currentUser.email && parcel.isWeighted && !parcel.isShipped
-  // );
 
   const [selectedParcels, setSelectedParcels] = useState([]);
   const [allowPurchase, setAllowPurchase] = useState(false);
 
   const handleNext = () => {
-    // if (activeStep === 0) {
-    //   // if (selectedParcels.length === 0) {
-    //   //   alert('Please select at least one parcel');
-    //   //   return;
-    //   // }
-    // }
     if (activeStep === 2) {
-      // if (!currentGroup.members.includes(currentUser.email)) {
-      //   const newShipGroup = {
-      //     ...currentGroup,
-      //     members: [...currentGroup.members, currentUser.email],
-      //   };
-      //   dispatch(updateShipGroupThunk(newShipGroup));
-      // } else {
-      //   console.log('currentUser is already in the group');
-      // }
-
       selectedParcels.map((selectedParcel) => {
         const newParcel = {
           ...selectedParcel,
           shipGroup: groupId,
           isShipped: true,
         };
-        // dispatch(updateParcelThunk(newParcel));
       });
     }
-    // if (activeStep === 3) {
-    //   navigate('/groups');
-    //   return;
-    // }
-
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -94,7 +50,6 @@ export default function Checkout() {
     setAllowPurchase(true);
   };
 
-  // const navigate = useNavigate();
   const handleBack = () => {
     if (activeStep === 1) {
       const confirmed = window.confirm('You will lose your selection. Are you sure to leave?');
@@ -177,10 +132,6 @@ export default function Checkout() {
   const methods = useForm({
     resolver: yupResolver(NewGroupSchema), defaultValues,
   });
-
-  // const methods = useForm({
-  //   defaultValues,
-  // });
 
   const { handleSubmit, setValue } = methods;
 
