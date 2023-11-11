@@ -83,6 +83,7 @@ export function FormGroupStepTwo() {
                 id="outlined-required"
                 placeholder="eg. 000"
                 style={{ marginBottom: 15 }}
+                type="password"
               />
             </Stack>
           </Stack>
