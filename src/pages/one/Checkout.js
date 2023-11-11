@@ -28,7 +28,7 @@ const steps = ['', '', ''];
 export default function Checkout() {
   const recaptchaRef = React.createRef();
   const [activeStep, setActiveStep] = React.useState(0);
-
+  const [recaptchaToken, setRecaptchaToken] = useState('');
 
   const [selectedParcels, setSelectedParcels] = useState([]);
   const [allowPurchase, setAllowPurchase] = useState(false);
@@ -46,8 +46,9 @@ export default function Checkout() {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
-  const onRecaptchaChange = () => {
+  const onRecaptchaChange = (token) => {
     setAllowPurchase(true);
+    setRecaptchaToken(token);
   };
 
   const handleBack = () => {
@@ -154,7 +155,8 @@ export default function Checkout() {
   const onSubmit = async (data) => {
     data = {
       ...data,
-      user: user,
+      user,
+      recaptchaToken,
     };
     console.log(data);
     await sendData(data);
