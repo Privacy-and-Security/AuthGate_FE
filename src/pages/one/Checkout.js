@@ -157,13 +157,7 @@ export default function Checkout() {
   };
 
   const onSubmit = async (data) => {
-    data = {
-      ...data,
-      user,
-      recaptchaToken,
-    };
-    console.log(data);
-    handleNext();
+    onCompletePurchase();
   };
 
   const onCompletePurchase = async () => {
@@ -174,6 +168,7 @@ export default function Checkout() {
       expireDate: getValues('expireDate'),
       zipCode: getValues('zipCode'),
       user: user,
+      recaptchaToken,
     };
     await sendData(data);
     handleNext();
@@ -612,7 +607,7 @@ export default function Checkout() {
                         <Button
                           variant={'contained'}
                           color="primary"
-                          type="submit"
+                          onClick={handleNext}
                           style={{
                             display: allowPurchase ? 'block' : 'none',
                           }}
@@ -621,7 +616,7 @@ export default function Checkout() {
                         </Button>
                       )}
                       {activeStep === 1 && (
-                        <Button variant={'contained'} color="primary" onClick={onCompletePurchase}>
+                        <Button variant={'contained'} color="primary" type='submit'>
                           Complete
                         </Button>
                       )}
