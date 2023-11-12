@@ -87,6 +87,7 @@ export default function Checkout() {
     //   return;
     // }
 
+    setAllowPurchase(false);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -103,6 +104,7 @@ export default function Checkout() {
       } else {
         return;
       }
+      setAllowPurchase(false);
       setActiveStep((prevActiveStep) => prevActiveStep - 1);
     }
   };
@@ -660,7 +662,9 @@ export default function Checkout() {
                           variant={'contained'}
                           color="primary"
                           type="submit"
-                          disabled={!allowPurchase}
+                          style={{
+                            display: allowPurchase ? 'block' : 'none',
+                          }}
                         >
                           Next
                         </Button>
@@ -712,7 +716,9 @@ export default function Checkout() {
                         <Button
                           variant={'contained'}
                           color="primary"
-                          disabled={!allowPurchase}
+                          style={{
+                            display: allowPurchase ? 'block' : 'none',
+                          }}
                           type="submit"
                         >
                           Next
