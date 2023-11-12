@@ -71,7 +71,7 @@ export function FormGroupStepTwo() {
                 required
                 name="cardNumber"
                 id="outlined-required"
-                placeholder="1234-1234-1234-1234"
+                placeholder="1234567890123456"
                 style={{ marginBottom: 15 }}
               />
             </Stack>
@@ -104,7 +104,7 @@ export function FormGroupStepTwo() {
                 required
                 name="expireDate"
                 id="outlined-required"
-                placeholder="eg. 123-456-7890"
+                placeholder="eg. 05/26"
                 style={{ marginBottom: 15 }}
               />
             </Stack>

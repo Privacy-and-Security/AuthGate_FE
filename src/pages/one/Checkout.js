@@ -140,6 +140,7 @@ export default function Checkout() {
 
   const sendData = async (data) => {
     const response = await fetch('https://api.authgate.work/pay', {
+    // const response = await fetch('http://localhost:3005/pay', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -159,6 +160,7 @@ export default function Checkout() {
       recaptchaToken,
     };
     console.log(data);
+    // TODO: if fail, show error message
     await sendData(data);
     handleNext();
   };
