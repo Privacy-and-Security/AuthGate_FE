@@ -1,6 +1,5 @@
-import Main from '../../@mui-library/layouts/dashboard/Main';
-import Header from '../../@mui-library/layouts/dashboard/header';
-import NavVertical from '../../@mui-library/layouts/dashboard/nav/NavVertical';
+import { useUser } from '@auth0/nextjs-auth0/client';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Container } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -10,19 +9,14 @@ import Stepper from '@mui/material/Stepper';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { useLocation, useNavigate } from 'react-router-dom';
-// import { updateParcelThunk } from 'redux/parcels/parcels-thunks';
-// import { findShipGroupByIdThunk, updateShipGroupThunk } from 'redux/shipGroups/shipGroups-thunks';
+import { useForm } from 'react-hook-form';
+import * as Yup from 'yup';
+import FormProvider from '../../@mui-library/components/hook-form';
+import Main from '../../@mui-library/layouts/dashboard/Main';
 import CheckoutStepOne from './Checkout-StepOne';
 import { FormGroupStepTwo } from './Checkout-StepTwo';
-import * as Yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import FormProvider from '../../@mui-library/components/hook-form';
-import { useUser } from '@auth0/nextjs-auth0/client';
 
 const steps = ['', '', ''];
 export default function Checkout() {
@@ -140,7 +134,7 @@ export default function Checkout() {
 
   const sendData = async (data) => {
     const response = await fetch('https://api.authgate.work/pay', {
-    // const response = await fetch('http://localhost:3005/pay', {
+      // const response = await fetch('http://localhost:3005/pay', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
