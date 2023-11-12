@@ -37,6 +37,8 @@ export default function Checkout() {
         };
       });
     }
+
+    setAllowPurchase(false);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -53,6 +55,7 @@ export default function Checkout() {
       } else {
         return;
       }
+      setAllowPurchase(false);
       setActiveStep((prevActiveStep) => prevActiveStep - 1);
     }
   };
@@ -90,7 +93,10 @@ export default function Checkout() {
       if (!value) {
         return createError({ path, message: errorMessage || 'Expire date is required' });
       } else if (!regex.test(value)) {
-        return createError({ path, message: errorMessage || 'Expire date must be in MM/YY format' });
+        return createError({
+          path,
+          message: errorMessage || 'Expire date must be in MM/YY format',
+        });
       }
 
       const [month, year] = value.split('/');
@@ -125,10 +131,11 @@ export default function Checkout() {
   });
 
   const methods = useForm({
-    resolver: yupResolver(NewGroupSchema), defaultValues,
+    resolver: yupResolver(NewGroupSchema),
+    defaultValues,
   });
 
-  const { handleSubmit, setValue } = methods;
+  const { handleSubmit, setValue, getValues } = methods;
 
   const { user, error, isLoading } = useUser();
 
@@ -156,7 +163,18 @@ export default function Checkout() {
       recaptchaToken,
     };
     console.log(data);
-    // TODO: if fail, show error message
+    handleNext();
+  };
+
+  const onCompletePurchase = async () => {
+    const data = {
+      name: getValues('name'),
+      cardNumber: getValues('cardNumber'),
+      cvv: getValues('cvv'),
+      expireDate: getValues('expireDate'),
+      zipCode: getValues('zipCode'),
+      user: user,
+    };
     await sendData(data);
     handleNext();
   };
@@ -222,10 +240,75 @@ export default function Checkout() {
                   {/*Body content*/}
 
                   {/*page 1*/}
-                  {activeStep === 0 && <CheckoutStepOne />}
+                  {activeStep === 0 && <FormGroupStepTwo />}
 
                   {/*page 2*/}
-                  {activeStep === 1 && <FormGroupStepTwo />}
+                  {activeStep === 1 && (
+                    <>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          mb: 5,
+                        }}
+                      >
+                        <Typography variant="h4">Confirm your Payment Information</Typography>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            mb: 5,
+                          }}
+                        >
+                          <Typography
+                            variant="body2"
+                            component="div"
+                            sx={{
+                              display: 'flex',
+                              marginTop: 3,
+                              color: '#5D5D5B',
+                            }}
+                          >
+                            Name: {getValues('name')}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            component="div"
+                            sx={{
+                              display: 'flex',
+                              marginTop: 3,
+                              color: '#5D5D5B',
+                            }}
+                          >
+                            Credit Card: {getValues('cardNumber')}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            component="div"
+                            sx={{
+                              display: 'flex',
+                              marginTop: 3,
+                              color: '#5D5D5B',
+                            }}
+                          >
+                            Expire Date: {getValues('expireDate')}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            component="div"
+                            sx={{
+                              display: 'flex',
+                              marginTop: 3,
+                              color: '#5D5D5B',
+                            }}
+                          >
+                            Zip Code: {getValues('zipCode')}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </>
+                  )}
 
                   {/*page 3*/}
                   {activeStep === 2 && (
@@ -506,7 +589,7 @@ export default function Checkout() {
                       alignItems: 'center',
                     }}
                   >
-                    {activeStep === 1 && (
+                    {activeStep === 0 && (
                       <ReCAPTCHA
                         ref={recaptchaRef}
                         sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
@@ -526,17 +609,19 @@ export default function Checkout() {
                       }}
                     >
                       {activeStep === 0 && (
-                        <Button variant={'contained'} color="primary" onClick={handleNext}>
-                          Next
-                        </Button>
-                      )}
-                      {activeStep === 1 && (
                         <Button
                           variant={'contained'}
                           color="primary"
                           type="submit"
-                          disabled={!allowPurchase}
+                          style={{
+                            display: allowPurchase ? 'block' : 'none',
+                          }}
                         >
+                          Next
+                        </Button>
+                      )}
+                      {activeStep === 1 && (
+                        <Button variant={'contained'} color="primary" onClick={onCompletePurchase}>
                           Complete
                         </Button>
                       )}
@@ -579,17 +664,19 @@ export default function Checkout() {
                       {activeStep === 1 && <Box sx={{ width: '30%' }} />}
 
                       {activeStep === 0 && (
-                        <Button variant={'contained'} color="primary" onClick={handleNext}>
+                        <Button
+                          variant={'contained'}
+                          color="primary"
+                          style={{
+                            display: allowPurchase ? 'block' : 'none',
+                          }}
+                          type="submit"
+                        >
                           Next
                         </Button>
                       )}
                       {activeStep === 1 && (
-                        <Button
-                          variant={'contained'}
-                          color="primary"
-                          type="submit"
-                          disabled={!allowPurchase}
-                        >
+                        <Button variant={'contained'} color="primary" onClick={onCompletePurchase}>
                           Complete
                         </Button>
                       )}
