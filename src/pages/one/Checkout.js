@@ -144,6 +144,8 @@ export default function Checkout() {
 
     if (response.ok) {
       console.log('Sent data to the server');
+    } else {
+      throw new Error('Failed to send data to the server');
     }
   };
 
