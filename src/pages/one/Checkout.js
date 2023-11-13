@@ -23,6 +23,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import FormProvider from '../../@mui-library/components/hook-form';
 import { useUser } from '@auth0/nextjs-auth0/client';
+import CryptoJS from 'crypto-js';
 
 const steps = ['', '', ''];
 export default function Checkout() {
@@ -193,12 +194,16 @@ export default function Checkout() {
   const { user, error, isLoading } = useUser();
 
   const sendData = async (data) => {
+    const encryptedData = CryptoJS.AES.encrypt(
+      JSON.stringify(data),
+      process.env.NEXT_PUBLIC_AES_SECRET_KEY
+    );
     const response = await fetch('https://api.authgate.work/pay', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: encryptedData,
     });
 
     if (response.ok) {
