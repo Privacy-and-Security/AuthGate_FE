@@ -203,7 +203,7 @@ export default function Checkout() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: encryptedData,
+      body: { encrypted: encryptedData.toString() },
     });
 
     if (response.ok) {
