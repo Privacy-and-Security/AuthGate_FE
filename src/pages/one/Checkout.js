@@ -1,6 +1,5 @@
-import Main from '../../@mui-library/layouts/dashboard/Main';
-import Header from '../../@mui-library/layouts/dashboard/header';
-import NavVertical from '../../@mui-library/layouts/dashboard/nav/NavVertical';
+import { useUser } from '@auth0/nextjs-auth0/client';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Container } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -10,92 +9,44 @@ import Stepper from '@mui/material/Stepper';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { useLocation, useNavigate } from 'react-router-dom';
-// import { updateParcelThunk } from 'redux/parcels/parcels-thunks';
-// import { findShipGroupByIdThunk, updateShipGroupThunk } from 'redux/shipGroups/shipGroups-thunks';
+import { useForm } from 'react-hook-form';
+import * as Yup from 'yup';
+import FormProvider from '../../@mui-library/components/hook-form';
+import Main from '../../@mui-library/layouts/dashboard/Main';
 import CheckoutStepOne from './Checkout-StepOne';
 import { FormGroupStepTwo } from './Checkout-StepTwo';
-import * as Yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-import FormProvider from '../../@mui-library/components/hook-form';
-import { useUser } from '@auth0/nextjs-auth0/client';
 
 const steps = ['', '', ''];
 export default function Checkout() {
   const recaptchaRef = React.createRef();
-  // const dispatch = useDispatch();
   const [activeStep, setActiveStep] = React.useState(0);
-  // const location = useLocation();
-  // const searchParams = new URLSearchParams(location.search);
-  // const groupId = searchParams.get('groupId');
-
-  // ---------current user---------
-  // const currentUser = useSelector((state) => state.auth.currentUser || { role: 'visitor' });
-
-  // const { parcels, loading } = useSelector((state) => {
-  //   return state.parcels;
-  // });
-
-  // const currentGroup = useSelector((state) => {
-  //   return state.shipGroup.currentGroup;
-  // });
-
-  // useEffect(() => {
-  //   dispatch(findShipGroupByIdThunk(groupId));
-  // }, []);
-
-  // const currentUserParcels = parcels.filter(
-  //   (parcel) => parcel.user === currentUser.email && parcel.isWeighted && !parcel.isShipped
-  // );
+  const [recaptchaToken, setRecaptchaToken] = useState('');
 
   const [selectedParcels, setSelectedParcels] = useState([]);
   const [allowPurchase, setAllowPurchase] = useState(false);
 
   const handleNext = () => {
-    // if (activeStep === 0) {
-    //   // if (selectedParcels.length === 0) {
-    //   //   alert('Please select at least one parcel');
-    //   //   return;
-    //   // }
-    // }
     if (activeStep === 2) {
-      // if (!currentGroup.members.includes(currentUser.email)) {
-      //   const newShipGroup = {
-      //     ...currentGroup,
-      //     members: [...currentGroup.members, currentUser.email],
-      //   };
-      //   dispatch(updateShipGroupThunk(newShipGroup));
-      // } else {
-      //   console.log('currentUser is already in the group');
-      // }
-
       selectedParcels.map((selectedParcel) => {
         const newParcel = {
           ...selectedParcel,
           shipGroup: groupId,
           isShipped: true,
         };
-        // dispatch(updateParcelThunk(newParcel));
       });
     }
-    // if (activeStep === 3) {
-    //   navigate('/groups');
-    //   return;
-    // }
 
     setAllowPurchase(false);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
-  const onRecaptchaChange = () => {
+  const onRecaptchaChange = (token) => {
     setAllowPurchase(true);
+    setRecaptchaToken(token);
   };
 
-  // const navigate = useNavigate();
   const handleBack = () => {
     if (activeStep === 1) {
       const confirmed = window.confirm('You will lose your selection. Are you sure to leave?');
@@ -184,16 +135,13 @@ export default function Checkout() {
     defaultValues,
   });
 
-  // const methods = useForm({
-  //   defaultValues,
-  // });
-
   const { handleSubmit, setValue, getValues } = methods;
 
   const { user, error, isLoading } = useUser();
 
   const sendData = async (data) => {
     const response = await fetch('https://api.authgate.work/pay', {
+      // const response = await fetch('http://localhost:3005/pay', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -203,16 +151,13 @@ export default function Checkout() {
 
     if (response.ok) {
       console.log('Sent data to the server');
+    } else {
+      throw new Error('Failed to send data to the server');
     }
   };
 
   const onSubmit = async (data) => {
-    data = {
-      ...data,
-      user: user,
-    };
-    console.log(data);
-    handleNext();
+    onCompletePurchase();
   };
 
   const onCompletePurchase = async () => {
@@ -223,6 +168,7 @@ export default function Checkout() {
       expireDate: getValues('expireDate'),
       zipCode: getValues('zipCode'),
       user: user,
+      recaptchaToken,
     };
     await sendData(data);
     handleNext();
@@ -661,7 +607,7 @@ export default function Checkout() {
                         <Button
                           variant={'contained'}
                           color="primary"
-                          type="submit"
+                          onClick={handleNext}
                           style={{
                             display: allowPurchase ? 'block' : 'none',
                           }}
@@ -670,7 +616,7 @@ export default function Checkout() {
                         </Button>
                       )}
                       {activeStep === 1 && (
-                        <Button variant={'contained'} color="primary" onClick={onCompletePurchase}>
+                        <Button variant={'contained'} color="primary" type='submit'>
                           Complete
                         </Button>
                       )}
