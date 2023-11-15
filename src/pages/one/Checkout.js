@@ -17,6 +17,7 @@ import FormProvider from '../../@mui-library/components/hook-form';
 import Main from '../../@mui-library/layouts/dashboard/Main';
 import CheckoutStepOne from './Checkout-StepOne';
 import { FormGroupStepTwo } from './Checkout-StepTwo';
+import CryptoJS from 'crypto-js';
 
 const steps = ['', '', ''];
 export default function Checkout() {
@@ -140,13 +141,20 @@ export default function Checkout() {
   const { user, error, isLoading } = useUser();
 
   const sendData = async (data) => {
+    const encryptedData = CryptoJS.AES.encrypt(
+      JSON.stringify(data),
+      process.env.NEXT_PUBLIC_AES_SECRET_KEY
+    );
     const response = await fetch('https://api.authgate.work/pay', {
       // const response = await fetch('http://localhost:3005/pay', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        encrypted: encryptedData.toString(),
+        recaptchaToken
+      }),
     });
 
     if (response.ok) {
@@ -665,7 +673,7 @@ export default function Checkout() {
                           style={{
                             display: allowPurchase ? 'block' : 'none',
                           }}
-                          type="submit"
+                          onClick={handleNext}
                         >
                           Next
                         </Button>

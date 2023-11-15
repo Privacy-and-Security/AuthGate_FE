@@ -25,6 +25,7 @@
     "@mui/material": "^5.14.12",
     "autosuggest-highlight": "^3.3.4",
     "axios": "^1.5.1",
+    "crypto-js": "^4.2.0",
     "date-fns": "^2.30.0",
     "firebase": "^10.5.2",
     "framer-motion": "^10.16.4",
