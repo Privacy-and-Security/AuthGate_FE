@@ -146,7 +146,7 @@ export default function Checkout() {
       process.env.NEXT_PUBLIC_AES_SECRET_KEY
     );
     const response = await fetch('https://api.authgate.work/pay', {
-      // const response = await fetch('http://localhost:3005/pay', {
+    // const response = await fetch('http://localhost:3005/pay', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -670,7 +670,7 @@ export default function Checkout() {
                           style={{
                             display: allowPurchase ? 'block' : 'none',
                           }}
-                          type="submit"
+                          onClick={handleNext}
                         >
                           Next
                         </Button>
