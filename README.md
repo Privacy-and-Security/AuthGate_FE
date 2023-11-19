@@ -10,7 +10,9 @@ Traditional security measures fall short against sophisticated cyber threats. Re
 
 Our aim is to revolutionize web security, setting a new solution in safeguarding user registration and transactions, thereby fostering a reliable and trustworthy digital experience for users.
 
-### Devleping Procedure
+**Quick view link**：https://authgate.work
+
+## Devleping Procedure
 
 <img src="https://github.com/Privacy-and-Security/AuthGate_FE/assets/82356933/9db43884-a717-494d-91dd-4bf2ed472d6d" width="600">
 
@@ -36,9 +38,17 @@ This realization forms the cornerstone of our development philosophy, which is c
 
 This cyclical process of identifying, validating, resolving, and verifying security issues ensures a robust and responsive development environment. It reflects our commitment to an ever-evolving security posture, adapting continuously to new challenges in the cyber landscape, thus maintaining the highest standards of safety and reliability in our web services.
 
-## Security Enhancements 
+## Our work
 
-Below, we outline the specific security challenges we found during our iteration cycle, the steps taken to address them, and the outcomes of our interventions.
+Below, we outline the specific security challenges we found during our iteration cycle, and the steps taken to address them.
+
+<img src="https://github.com/Privacy-and-Security/AuthGate_FE/assets/82356933/b085920a-82e4-4582-bcff-46d8726791c4" width=600>
+
+All the scripts mentioned in the above diagram are available in [this repository](https://github.com/Privacy-and-Security/AuthGate_Attack_Tools/tree/main). We also provide detailed descriptions there showing how the scripts work.
+
+We have intentionally preserved the original version of our website and server (https://feweak.authgate.work) for script testing purposes, allowing you to replicate the security vulnerabilities we previously identified. 
+
+You are also invited to visit our latest website version (https://authgate.work) to observe the improvements and see the effects of the resolved vulnerabilities in contrast.
 
 ## Get started
 
