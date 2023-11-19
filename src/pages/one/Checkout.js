@@ -11,7 +11,6 @@ import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import ReCAPTCHA from 'react-google-recaptcha';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { useLocation, useNavigate } from 'react-router-dom';
 // import { updateParcelThunk } from 'redux/parcels/parcels-thunks';
@@ -26,7 +25,6 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 
 const steps = ['', '', ''];
 export default function Checkout() {
-  const recaptchaRef = React.createRef();
   // const dispatch = useDispatch();
   const [activeStep, setActiveStep] = React.useState(0);
   // const location = useLocation();
@@ -53,7 +51,6 @@ export default function Checkout() {
   // );
 
   const [selectedParcels, setSelectedParcels] = useState([]);
-  const [allowPurchase, setAllowPurchase] = useState(false);
 
   const handleNext = () => {
     // if (activeStep === 0) {
@@ -88,10 +85,6 @@ export default function Checkout() {
     // }
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const onRecaptchaChange = () => {
-    setAllowPurchase(true);
   };
 
   // const navigate = useNavigate();
@@ -512,23 +505,6 @@ export default function Checkout() {
 
                   {/*------------------buttons------------------*/}
 
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      pt: 2,
-                      alignItems: 'center',
-                    }}
-                  >
-                    {activeStep === 1 && (
-                      <ReCAPTCHA
-                        ref={recaptchaRef}
-                        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                        onChange={onRecaptchaChange}
-                      />
-                    )}
-                  </Box>
-
                   {isSmallScreen && (
                     <Box
                       sx={{
@@ -545,12 +521,7 @@ export default function Checkout() {
                         </Button>
                       )}
                       {activeStep === 1 && (
-                        <Button
-                          variant={'contained'}
-                          color="primary"
-                          type="submit"
-                          disabled={!allowPurchase}
-                        >
+                        <Button variant={'contained'} color="primary" type="submit">
                           Complete
                         </Button>
                       )}
@@ -598,12 +569,7 @@ export default function Checkout() {
                         </Button>
                       )}
                       {activeStep === 1 && (
-                        <Button
-                          variant={'contained'}
-                          color="primary"
-                          type="submit"
-                          disabled={!allowPurchase}
-                        >
+                        <Button variant={'contained'} color="primary" type="submit">
                           Complete
                         </Button>
                       )}
