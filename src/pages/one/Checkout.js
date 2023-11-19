@@ -152,7 +152,7 @@ export default function Checkout() {
   const { user, error, isLoading } = useUser();
 
   const sendData = async (data) => {
-    const response = await fetch('https://api.authgate.work/pay', {
+    const response = await fetch('https://apiweak.authgate.work/pay', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
