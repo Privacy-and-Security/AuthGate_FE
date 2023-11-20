@@ -15,7 +15,6 @@ import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import FormProvider from '../../@mui-library/components/hook-form';
 import Main from '../../@mui-library/layouts/dashboard/Main';
-import CheckoutStepOne from './Checkout-StepOne';
 import { FormGroupStepTwo } from './Checkout-StepTwo';
 import CryptoJS from 'crypto-js';
 
@@ -25,20 +24,9 @@ export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [recaptchaToken, setRecaptchaToken] = useState('');
 
-  const [selectedParcels, setSelectedParcels] = useState([]);
   const [allowPurchase, setAllowPurchase] = useState(false);
 
   const handleNext = () => {
-    if (activeStep === 2) {
-      selectedParcels.map((selectedParcel) => {
-        const newParcel = {
-          ...selectedParcel,
-          shipGroup: groupId,
-          isShipped: true,
-        };
-      });
-    }
-
     setAllowPurchase(false);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -52,7 +40,6 @@ export default function Checkout() {
     if (activeStep === 1) {
       const confirmed = window.confirm('You will lose your selection. Are you sure to leave?');
       if (confirmed) {
-        setSelectedParcels([]);
       } else {
         return;
       }
@@ -64,16 +51,6 @@ export default function Checkout() {
   const handleReset = () => {
     setActiveStep(0);
     setAllowPurchase(false);
-  };
-
-  const [open, setOpen] = useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
   };
 
   const isSmallScreen = useMediaQuery('(max-width:600px)');
@@ -146,7 +123,7 @@ export default function Checkout() {
       process.env.NEXT_PUBLIC_AES_SECRET_KEY
     );
     const response = await fetch('https://api.authgate.work/pay', {
-    // const response = await fetch('http://localhost:3005/pay', {
+      // const response = await fetch('http://localhost:3005/pay', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -183,7 +160,6 @@ export default function Checkout() {
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      {/* <Header onOpenNav={handleOpen} /> */}
       {/*-------Box is the layout of the whole page-----*/}
       <Box
         sx={{
@@ -192,7 +168,7 @@ export default function Checkout() {
         }}
       >
         {/*--------------Navigation bar------------------*/}
-        {/* <NavVertical openNav={open} onCloseNav={handleClose} /> */}
+
         <Main>
           <Container
             maxWidth="xl"
@@ -211,7 +187,7 @@ export default function Checkout() {
                   marginRight: 'auto',
                   display: 'flex',
                   justifyContent: 'center',
-                  // alignItems: 'center',
+
                   mb: 10,
                 }}
               >
@@ -233,7 +209,6 @@ export default function Checkout() {
                   <Box
                     sx={{ display: 'flex', flexDirection: 'row', pt: 5, justifyContent: 'center' }}
                   >
-                    {/* <Box sx={{ flex: '1 1 auto' }} /> */}
                     <Button onClick={handleReset}>Reset</Button>
                   </Box>
                 </React.Fragment>
@@ -623,7 +598,7 @@ export default function Checkout() {
                         </Button>
                       )}
                       {activeStep === 1 && (
-                        <Button variant={'contained'} color="primary" type='submit'>
+                        <Button variant={'contained'} color="primary" type="submit">
                           Complete
                         </Button>
                       )}
@@ -651,8 +626,6 @@ export default function Checkout() {
                         display: 'flex',
                         flexDirection: { xs: 'column', sm: 'row' },
                         pt: 5,
-                        // ml: 'auto',
-                        // mr: 'auto',
                         justifyContent: 'center',
                         alignItems: 'center',
                       }}
