@@ -1,8 +1,6 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import { RHFTextField } from '../../@mui-library/components/hook-form';
 import { Stack } from '@mui/material';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 export function FormGroupStepTwo() {
@@ -51,7 +49,12 @@ export function FormGroupStepTwo() {
         >
           <Stack sx={{ width: '100%' }}>
             <Typography variant="h6">Name</Typography>
-            <RHFTextField required name="name" id="outlined-required" placeholder="eg. Tony Swift" />
+            <RHFTextField
+              required
+              name="name"
+              id="outlined-required"
+              placeholder="eg. Tony Swift"
+            />
           </Stack>
 
           <Stack
@@ -126,5 +129,5 @@ export function FormGroupStepTwo() {
 }
 
 export default function CheckoutStepTwo() {
-  return <> </>
-};
+  return <> </>;
+}

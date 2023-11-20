@@ -8,10 +8,6 @@ import SvgColor from 'src/components/svg-color';
 
 const icon = (name) => (
   <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />
-  // OR
-  // <Iconify icon="fluent:mail-24-filled" />
-  // https://icon-sets.iconify.design/solar/
-  // https://www.streamlinehq.com/icons
 );
 
 const ICONS = {
@@ -51,24 +47,6 @@ export function useNavData() {
       {
         subheader: 'Mock Process',
         items: [{ title: 'Payment', path: paths.dashboard.root, icon: ICONS.ecommerce }],
-      },
-
-      // MANAGEMENT
-      // ----------------------------------------------------------------------
-      {
-        subheader: 'Management',
-        items: [
-          {
-            title: 'Dashboard',
-            path: paths.dashboard.group.root,
-            icon: ICONS.dashboard,
-            children: [
-              { title: 'four', path: paths.dashboard.group.root },
-              { title: 'five', path: paths.dashboard.group.five },
-              { title: 'six', path: paths.dashboard.group.six },
-            ],
-          },
-        ],
       },
     ],
     []
