@@ -614,7 +614,7 @@ export default function Checkout() {
                         <Button
                           variant={'contained'}
                           color="primary"
-                          onClick={handleNext}
+                          type='submit'
                           style={{
                             display: allowPurchase ? 'block' : 'none',
                           }}
@@ -672,7 +672,7 @@ export default function Checkout() {
                           style={{
                             display: allowPurchase ? 'block' : 'none',
                           }}
-                          onClick={handleNext}
+                          type='submit'
                         >
                           Next
                         </Button>
