@@ -24,8 +24,7 @@ export function FormGroupStepTwo() {
           }}
         >
           <Typography variant="caption">
-            Please provide accurate and comprehensive information about your group to ensure the
-            best possible experience for all members.
+            Please provide accurate and comprehensive information in each field below.
           </Typography>
         </Box>
       </Box>

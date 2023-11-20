@@ -123,7 +123,7 @@ export default function Checkout() {
       process.env.NEXT_PUBLIC_AES_SECRET_KEY
     );
     const response = await fetch('https://api.authgate.work/pay', {
-    // const response = await fetch('http://localhost:3005/pay', {
+      // const response = await fetch('http://localhost:3005/pay', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -155,7 +155,7 @@ export default function Checkout() {
       recaptchaToken,
     };
 
-    console.log(`data: ${JSON.stringify(data)}`)
+    console.log(`data: ${JSON.stringify(data)}`);
     await sendData(data);
     handleNext();
   };
@@ -591,7 +591,7 @@ export default function Checkout() {
                         <Button
                           variant={'contained'}
                           color="primary"
-                          type='submit'
+                          type="submit"
                           style={{
                             display: allowPurchase ? 'block' : 'none',
                           }}
@@ -606,7 +606,7 @@ export default function Checkout() {
                       )}
                       {activeStep === 2 && (
                         <Button variant={'contained'} color="primary" onClick={handleNext}>
-                          Make a new payment
+                          OK
                         </Button>
                       )}
 
@@ -647,7 +647,7 @@ export default function Checkout() {
                           style={{
                             display: allowPurchase ? 'block' : 'none',
                           }}
-                          type='submit'
+                          type="submit"
                         >
                           Next
                         </Button>
