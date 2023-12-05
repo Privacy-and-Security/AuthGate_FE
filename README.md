@@ -42,7 +42,8 @@ This cyclical process of identifying, validating, resolving, and verifying secur
 
 Below, we outline the specific security challenges we found during our iteration cycle, and the steps taken to address them.
 
-<img src="https://github.com/Privacy-and-Security/AuthGate_FE/assets/82356933/b085920a-82e4-4582-bcff-46d8726791c4" width=600>
+<img src="https://github.com/Privacy-and-Security/AuthGate_FE/assets/82356933/fab530d8-2b7a-47eb-b689-55b4daf816e5" width=600>
+
 
 All the scripts mentioned in the above diagram are available in [this repository](https://github.com/Privacy-and-Security/AuthGate_Attack_Tools/tree/main). We also provide detailed descriptions there showing how the scripts work.
 
