@@ -18,14 +18,19 @@ import FormProvider from '../../@mui-library/components/hook-form';
 import Main from '../../@mui-library/layouts/dashboard/Main';
 import { FormGroupStepTwo } from '../../pages/one/Checkout-StepTwo';
 import CryptoJS from 'crypto-js';
-import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 
 import dynamic from 'next/dynamic';
 
-const Elements = dynamic(
-  () => import('@stripe/react-stripe-js').then((mod) => mod.Elements),
-  { ssr: false }
-);
+import {
+  Elements,
+  CardElement,
+  useElements,
+  useStripe,
+  CardCvcElement,
+  CardNumberElement,
+  CardExpiryElement,
+} from '@stripe/react-stripe-js';
+
 
 const steps = ['', '', ''];
 export default function Checkout() {
@@ -36,15 +41,35 @@ export default function Checkout() {
   const [allowPurchase, setAllowPurchase] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(null);
 
-  const handleNext = async () => {
+  const elements = useElements();
+  const stripe = useStripe();
+
+  const handleNext = async (event) => {
     setAllowPurchase(false);
 
     // get payment method from stripe before confirming
     if (activeStep === 0) {
       try {
+        console.log('here')
+
+        event.preventDefault();
+
+        if (!stripe || !elements) {
+          return;
+        }
+
+        const cardNumberElement = elements.getElement(CardNumberElement);
+        const cardExpiryElement = elements.getElement(CardExpiryElement);
+        const cardCvcElement = elements.getElement(CardCvcElement);
+
         const paymentMethod = await stripe.createPaymentMethod({
           type: 'card',
-          card: elements.getElement(CardElement),
+          card: {
+            number: cardNumberElement,
+            exp_month: cardExpiryElement,
+            exp_year: cardExpiryElement,
+            cvc: cardCvcElement,
+          },
         });
 
         setPaymentMethod(paymentMethod);
@@ -200,6 +225,7 @@ export default function Checkout() {
     const amount = 1000;
     const currency = 'usd';
 
+    // const response = await fetch('https://api.authgate.work/create-payment-intent', {
     const response = await fetch('http://localhost:3005/create-payment-intent', {
       method: 'POST',
       headers: {
@@ -217,8 +243,7 @@ export default function Checkout() {
     return data.clientSecret;
   };
 
-  const elements = useElements();
-  const stripe = useStripe();
+
 
 
   const submitPaymentToStripe = async () => {
