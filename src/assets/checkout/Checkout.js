@@ -16,9 +16,16 @@ import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import FormProvider from '../../@mui-library/components/hook-form';
 import Main from '../../@mui-library/layouts/dashboard/Main';
-import { FormGroupStepTwo } from './Checkout-StepTwo';
+import { FormGroupStepTwo } from '../../pages/one/Checkout-StepTwo';
 import CryptoJS from 'crypto-js';
-import { Elements, CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+
+import dynamic from 'next/dynamic';
+
+const Elements = dynamic(
+  () => import('@stripe/react-stripe-js').then((mod) => mod.Elements),
+  { ssr: false }
+);
 
 const steps = ['', '', ''];
 export default function Checkout() {
