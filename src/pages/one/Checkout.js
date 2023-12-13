@@ -18,9 +18,7 @@ import FormProvider from '../../@mui-library/components/hook-form';
 import Main from '../../@mui-library/layouts/dashboard/Main';
 import { FormGroupStepTwo } from './Checkout-StepTwo';
 import CryptoJS from 'crypto-js';
-import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import { useRef } from 'react';
 
 const steps = ['', '', ''];
 export default function Checkout() {
@@ -29,9 +27,26 @@ export default function Checkout() {
   const [recaptchaToken, setRecaptchaToken] = useState('');
 
   const [allowPurchase, setAllowPurchase] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState(null);
 
-  const handleNext = () => {
+  const handleNext = async () => {
     setAllowPurchase(false);
+
+    // get payment method from stripe before confirming
+    if (activeStep === 0) {
+      try {
+        const paymentMethod = await stripe.createPaymentMethod({
+          type: 'card',
+          card: elements.getElement(CardElement),
+        });
+
+        setPaymentMethod(paymentMethod);
+
+      } catch (error) {
+        console.log(`error: ${error}`);
+      }
+    }
+
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -195,65 +210,20 @@ export default function Checkout() {
     return data.clientSecret;
   };
 
-  const cardElementRef = useRef();
   const elements = useElements();
   const stripe = useStripe();
 
 
   const submitPaymentToStripe = async () => {
-
-    const cardDetails = {
-      number: getValues('cardNumber'),
-      exp_month: '05',
-      exp_year: '2026',
-      cvc: getValues('cvv'),
-      name: getValues('name'),
-
-      // name: getValues('name'),
-      // cardNumber: getValues('cardNumber'),
-      // cvv: getValues('cvv'),
-      // expireDate: getValues('expireDate'),
-      // zipCode: getValues('zipCode'),
-      // user: user,
-    };
-
-
-
-    // const paymentMethod = await stripe.paymentMethods.create({
-    //   type: 'card',
-    //   card: {
-    //     number: '4242424242424242',
-    //     exp_month: 8,
-    //     exp_year: 2026,
-    //     cvc: '314',
-    //   },
-    // });
-
-    const cardElement = cardElementRef.current;
-
     try {
-      const paymentMethod = await stripe.createPaymentMethod({
-        type: 'card',
-        // card: cardElement,
-        card: elements.getElement(CardElement),
-      });
-      console.log(`paymentMethod: ${JSON.stringify(paymentMethod)}`);
-
       const paymentMethodId = paymentMethod.paymentMethod.id;
 
       const clientSecret = await fetchPaymentIntentClientSecret(paymentMethodId);
-      console.log(`clientSecret: ${clientSecret}`);
-
-      // const result = await stripe.confirmCardPayment(clientSecret, {
-      //   payment_method: paymentMethodId,
-      // });
 
     } catch (error) {
       console.log(`error: ${error}`);
     }
-
   };
-
 
 
   return (
@@ -269,9 +239,6 @@ export default function Checkout() {
         {/*--------------Navigation bar------------------*/}
 
         <Main>
-
-          <CardElement />
-
           <Container
             maxWidth="xl"
             sx={{

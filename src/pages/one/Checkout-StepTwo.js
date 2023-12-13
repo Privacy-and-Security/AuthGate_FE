@@ -2,6 +2,8 @@ import { RHFTextField } from '../../@mui-library/components/hook-form';
 import { Stack } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { Elements, CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+
 
 export function FormGroupStepTwo() {
   return (
@@ -28,6 +30,8 @@ export function FormGroupStepTwo() {
           </Typography>
         </Box>
       </Box>
+
+      <CardElement />
       {/*----------------- Form -----------------*/}
       <Box
         style={{
