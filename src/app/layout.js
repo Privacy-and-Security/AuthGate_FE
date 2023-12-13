@@ -15,8 +15,9 @@ import { SettingsDrawer, SettingsProvider } from 'src/components/settings';
 
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 
-// import { Elements } from '@stripe/react-stripe-js';
 // import { loadStripe } from '@stripe/stripe-js';
+// import { Elements, CardElement, useElements } from '@stripe/react-stripe-js';
+
 
 // ----------------------------------------------------------------------
 
@@ -39,6 +40,8 @@ export const metadata = {
 // const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY);
 
 export default function RootLayout({ children }) {
+  // const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+
   return (
     <html lang="en" className={primaryFont.className}>
       <body>
