@@ -23,6 +23,8 @@
     "@iconify/react": "^4.1.1",
     "@mui/lab": "^5.0.0-alpha.147",
     "@mui/material": "^5.14.12",
+    "@stripe/react-stripe-js": "^2.4.0",
+    "@stripe/stripe-js": "^2.2.1",
     "autosuggest-highlight": "^3.3.4",
     "axios": "^1.5.1",
     "crypto-js": "^4.2.0",

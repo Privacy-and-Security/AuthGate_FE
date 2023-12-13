@@ -1,3 +1,4 @@
+
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Container } from '@mui/material';
@@ -17,6 +18,9 @@ import FormProvider from '../../@mui-library/components/hook-form';
 import Main from '../../@mui-library/layouts/dashboard/Main';
 import { FormGroupStepTwo } from './Checkout-StepTwo';
 import CryptoJS from 'crypto-js';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements, CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import { useRef } from 'react';
 
 const steps = ['', '', ''];
 export default function Checkout() {
@@ -144,7 +148,7 @@ export default function Checkout() {
     handleNext();
   };
 
-  const onCompletePurchase = async () => {
+  const getData = () => {
     const data = {
       name: getValues('name'),
       cardNumber: getValues('cardNumber'),
@@ -155,13 +159,106 @@ export default function Checkout() {
       recaptchaToken,
     };
 
+    return data;
+  }
+
+
+  const onCompletePurchase = async () => {
+    const data = getData();
+
+    submitPaymentToStripe();
+
     console.log(`data: ${JSON.stringify(data)}`);
     await sendData(data);
     handleNext();
   };
 
+  const fetchPaymentIntentClientSecret = async (paymentMethod) => {
+
+    const amount = 1000;
+    const currency = 'usd';
+
+    const response = await fetch('http://localhost:3005/create-payment-intent', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        amount,
+        currency,
+        paymentMethodId: paymentMethod,
+
+      }),
+    });
+
+    const data = await response.json();
+    return data.clientSecret;
+  };
+
+  const cardElementRef = useRef();
+  const elements = useElements();
+  const stripe = useStripe();
+
+
+  const submitPaymentToStripe = async () => {
+
+    const cardDetails = {
+      number: getValues('cardNumber'),
+      exp_month: '05',
+      exp_year: '2026',
+      cvc: getValues('cvv'),
+      name: getValues('name'),
+
+      // name: getValues('name'),
+      // cardNumber: getValues('cardNumber'),
+      // cvv: getValues('cvv'),
+      // expireDate: getValues('expireDate'),
+      // zipCode: getValues('zipCode'),
+      // user: user,
+    };
+
+
+
+    // const paymentMethod = await stripe.paymentMethods.create({
+    //   type: 'card',
+    //   card: {
+    //     number: '4242424242424242',
+    //     exp_month: 8,
+    //     exp_year: 2026,
+    //     cvc: '314',
+    //   },
+    // });
+
+    const cardElement = cardElementRef.current;
+
+    try {
+      const paymentMethod = await stripe.createPaymentMethod({
+        type: 'card',
+        // card: cardElement,
+        card: elements.getElement(CardElement),
+      });
+      console.log(`paymentMethod: ${JSON.stringify(paymentMethod)}`);
+
+      const paymentMethodId = paymentMethod.paymentMethod.id;
+
+      const clientSecret = await fetchPaymentIntentClientSecret(paymentMethodId);
+      console.log(`clientSecret: ${clientSecret}`);
+
+      // const result = await stripe.confirmCardPayment(clientSecret, {
+      //   payment_method: paymentMethodId,
+      // });
+
+    } catch (error) {
+      console.log(`error: ${error}`);
+    }
+
+  };
+
+
+
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+
       {/*-------Box is the layout of the whole page-----*/}
       <Box
         sx={{
@@ -172,6 +269,9 @@ export default function Checkout() {
         {/*--------------Navigation bar------------------*/}
 
         <Main>
+
+          <CardElement />
+
           <Container
             maxWidth="xl"
             sx={{
@@ -670,6 +770,6 @@ export default function Checkout() {
           </Container>
         </Main>
       </Box>
-    </FormProvider>
+    </FormProvider >
   );
 }
