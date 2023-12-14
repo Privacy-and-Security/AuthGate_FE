@@ -1,4 +1,5 @@
 /* eslint-disable perfectionist/sort-imports */
+
 import 'src/global.css';
 
 // ----------------------------------------------------------------------
@@ -13,6 +14,10 @@ import { MotionLazy } from 'src/components/animate/motion-lazy';
 import { SettingsDrawer, SettingsProvider } from 'src/components/settings';
 
 import { UserProvider } from '@auth0/nextjs-auth0/client';
+
+// import { loadStripe } from '@stripe/stripe-js';
+// import { Elements, CardElement, useElements } from '@stripe/react-stripe-js';
+
 
 // ----------------------------------------------------------------------
 
@@ -32,30 +37,36 @@ export const metadata = {
   ],
 };
 
+// const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY);
+
 export default function RootLayout({ children }) {
+  // const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+
   return (
     <html lang="en" className={primaryFont.className}>
       <body>
-        <UserProvider>
-          <SettingsProvider
-            defaultSettings={{
-              themeMode: 'light', // 'light' | 'dark'
-              themeDirection: 'ltr', //  'rtl' | 'ltr'
-              themeContrast: 'default', // 'default' | 'bold'
-              themeLayout: 'vertical', // 'vertical' | 'horizontal' | 'mini'
-              themeColorPresets: 'default', // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
-              themeStretch: false,
-            }}
-          >
-            <ThemeProvider>
-              <MotionLazy>
-                <SettingsDrawer />
-                <ProgressBar />
-                {children}
-              </MotionLazy>
-            </ThemeProvider>
-          </SettingsProvider>
-        </UserProvider>
+        {/* <Elements stripe={stripePromise}> */}
+          <UserProvider>
+            <SettingsProvider
+              defaultSettings={{
+                themeMode: 'light', // 'light' | 'dark'
+                themeDirection: 'ltr', //  'rtl' | 'ltr'
+                themeContrast: 'default', // 'default' | 'bold'
+                themeLayout: 'vertical', // 'vertical' | 'horizontal' | 'mini'
+                themeColorPresets: 'default', // 'default' | 'cyan' | 'purple' | 'blue' | 'orange' | 'red'
+                themeStretch: false,
+              }}
+            >
+              <ThemeProvider>
+                <MotionLazy>
+                  <SettingsDrawer />
+                  <ProgressBar />
+                  {children}
+                </MotionLazy>
+              </ThemeProvider>
+            </SettingsProvider>
+          </UserProvider>
+        {/* </Elements> */}
       </body>
     </html>
   );

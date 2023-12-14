@@ -2,6 +2,15 @@ import { RHFTextField } from '../../@mui-library/components/hook-form';
 import { Stack } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import {
+  Elements,
+  CardElement,
+  useElements,
+  useStripe,
+  CardCvcElement,
+  CardNumberElement,
+  CardExpiryElement,
+} from '@stripe/react-stripe-js';
 
 export function FormGroupStepTwo() {
   return (
@@ -28,6 +37,7 @@ export function FormGroupStepTwo() {
           </Typography>
         </Box>
       </Box>
+
       {/*----------------- Form -----------------*/}
       <Box
         style={{
@@ -69,24 +79,75 @@ export function FormGroupStepTwo() {
           >
             <Stack>
               <Typography variant="h6">Card Number</Typography>
-              <RHFTextField
+              {/* <RHFTextField
                 required
                 name="cardNumber"
                 id="outlined-required"
                 placeholder="1234567890123456"
                 style={{ marginBottom: 15 }}
-              />
+              /> */}
+
+              {/* <CardNumberElement /> */}
+              <div
+                style={{
+                  border: '1px solid #edeef0',
+                  padding: '10px',
+                  borderRadius: '8px',
+                  height: 52,
+                  paddingTop: '15px',
+                }}
+              >
+                <CardNumberElement
+                  options={{
+                    style: {
+                      base: {
+                        fontSize: '16px',
+                        color: '#363738',
+                        border: '1px solid #A0A0A0',
+                        '::placeholder': {
+                          color: '#c0c1c2',
+                        },
+                      },
+                    },
+                  }}
+                />
+              </div>
             </Stack>
             <Stack>
               <Typography variant="h6">CVV</Typography>
-              <RHFTextField
+              {/* <RHFTextField
                 required
                 name="cvv"
                 id="outlined-required"
                 placeholder="eg. 000"
                 style={{ marginBottom: 15 }}
                 type="password"
-              />
+              /> */}
+              {/* <CardCvcElement /> */}
+              <div
+                style={{
+                  border: '1px solid #edeef0',
+                  padding: '10px',
+                  borderRadius: '8px',
+                  height: 52,
+                  paddingTop: '15px',
+                }}
+              >
+                <CardCvcElement
+                  options={{
+                    style: {
+                      base: {
+                        fontSize: '16px',
+                        color: '#363738',
+                        border: '1px solid #A0A0A0',
+                        '::placeholder': {
+                          color: '#c0c1c2',
+                        },
+                      },
+                    },
+                  }}
+                />
+              </div>
             </Stack>
           </Stack>
           <Stack
@@ -102,13 +163,38 @@ export function FormGroupStepTwo() {
           >
             <Stack>
               <Typography variant="h6">Expiration Date</Typography>
-              <RHFTextField
+              {/* <RHFTextField
                 required
                 name="expireDate"
                 id="outlined-required"
                 placeholder="eg. 05/26"
                 style={{ marginBottom: 15 }}
-              />
+              /> */}
+              {/* <CardExpiryElement /> */}
+              <div
+                style={{
+                  border: '1px solid #edeef0',
+                  padding: '10px',
+                  borderRadius: '8px',
+                  height: 52,
+                  paddingTop: '15px',
+                }}
+              >
+                <CardExpiryElement
+                  options={{
+                    style: {
+                      base: {
+                        fontSize: '16px',
+                        color: '#363738',
+                        border: '1px solid #A0A0A0',
+                        '::placeholder': {
+                          color: '#c0c1c2',
+                        },
+                      },
+                    },
+                  }}
+                />
+              </div>
             </Stack>
             <Stack>
               <Typography variant="h6">Zip code</Typography>

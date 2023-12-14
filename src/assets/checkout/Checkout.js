@@ -15,8 +15,20 @@ import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import FormProvider from '../../@mui-library/components/hook-form';
 import Main from '../../@mui-library/layouts/dashboard/Main';
-import { FormGroupStepTwo } from './Checkout-StepTwo';
+import { FormGroupStepTwo } from '../../pages/one/Checkout-StepTwo';
 import CryptoJS from 'crypto-js';
+
+import dynamic from 'next/dynamic';
+
+import {
+  Elements,
+  CardElement,
+  useElements,
+  useStripe,
+  CardCvcElement,
+  CardNumberElement,
+  CardExpiryElement,
+} from '@stripe/react-stripe-js';
 
 const steps = ['', '', ''];
 export default function Checkout() {
@@ -25,9 +37,38 @@ export default function Checkout() {
   const [recaptchaToken, setRecaptchaToken] = useState('');
 
   const [allowPurchase, setAllowPurchase] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState(null);
 
-  const handleNext = () => {
+  const elements = useElements();
+  const stripe = useStripe();
+
+  const handleNext = async (event) => {
     setAllowPurchase(false);
+
+    // get payment method from stripe before confirming
+    if (activeStep === 0) {
+      try {
+        console.log('here');
+
+        // event.preventDefault();
+
+        if (!stripe || !elements) {
+          return;
+        }
+
+        const paymentMethod = await stripe.createPaymentMethod({
+          type: 'card',
+          card: elements.getElement(CardNumberElement),
+        });
+
+        console.log(`paymentMethod: ${JSON.stringify(paymentMethod)}`);
+
+        setPaymentMethod(paymentMethod);
+      } catch (error) {
+        console.log(`error: ${error}`);
+      }
+    }
+
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -57,52 +98,11 @@ export default function Checkout() {
 
   const defaultValues = {
     name: '',
-    cardNumber: '',
-    cvv: '',
-    expireDate: null,
     zipCode: '',
   };
 
-  Yup.addMethod(Yup.string, 'expireDate', function (errorMessage) {
-    return this.test('expire-date', errorMessage, function (value) {
-      const { path, createError } = this;
-
-      const regex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
-      if (!value) {
-        return createError({ path, message: errorMessage || 'Expire date is required' });
-      } else if (!regex.test(value)) {
-        return createError({
-          path,
-          message: errorMessage || 'Expire date must be in MM/YY format',
-        });
-      }
-
-      const [month, year] = value.split('/');
-      const currentYear = new Date().getFullYear() % 100;
-      const currentMonth = new Date().getMonth() + 1;
-
-      const expYear = parseInt(year, 10);
-      const expMonth = parseInt(month, 10);
-
-      if (expYear < currentYear || (expYear === currentYear && expMonth < currentMonth)) {
-        return createError({ path, message: errorMessage || 'Expire date has passed' });
-      }
-
-      return true;
-    });
-  });
-
   const NewGroupSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
-    cardNumber: Yup.string()
-      .required('Card number is required')
-      .matches(/^[0-9]{16}$/, 'Card number must be 16 digits'),
-    cvv: Yup.string()
-      .required('CVV is required')
-      .matches(/^[0-9]{3,4}$/, 'CVV must be 3 or 4 digits'),
-    expireDate: Yup.string()
-      .required('Expire date is required')
-      .expireDate('Expire date is not valid'),
     zipCode: Yup.string()
       .required('Zip code is required')
       .matches(/^[0-9]{5}(-[0-9]{4})?$/, 'Zip code must be 5 digits or 5+4 digits'),
@@ -144,7 +144,7 @@ export default function Checkout() {
     handleNext();
   };
 
-  const onCompletePurchase = async () => {
+  const getData = () => {
     const data = {
       name: getValues('name'),
       cardNumber: getValues('cardNumber'),
@@ -155,9 +155,48 @@ export default function Checkout() {
       recaptchaToken,
     };
 
+    return data;
+  };
+
+  const onCompletePurchase = async () => {
+    const data = getData();
+
+    submitPaymentToStripe();
+
     console.log(`data: ${JSON.stringify(data)}`);
     await sendData(data);
     handleNext();
+  };
+
+  const fetchPaymentIntentClientSecret = async (paymentMethod) => {
+    const amount = 1000;
+    const currency = 'usd';
+
+    const response = await fetch('https://api.authgate.work/create-payment-intent', {
+      // const response = await fetch('http://localhost:3005/create-payment-intent', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        amount,
+        currency,
+        paymentMethodId: paymentMethod,
+      }),
+    });
+
+    const data = await response.json();
+    return data.clientSecret;
+  };
+
+  const submitPaymentToStripe = async () => {
+    try {
+      const paymentMethodId = paymentMethod.paymentMethod.id;
+
+      const clientSecret = await fetchPaymentIntentClientSecret(paymentMethodId);
+    } catch (error) {
+      console.log(`error: ${error}`);
+    }
   };
 
   return (
@@ -237,21 +276,42 @@ export default function Checkout() {
                           sx={{
                             display: 'flex',
                             flexDirection: 'column',
+                            alignItems: 'center',
                             mb: 5,
                           }}
                         >
-                          <Typography
-                            variant="body2"
-                            component="div"
+                          <Box
                             sx={{
                               display: 'flex',
-                              marginTop: 3,
-                              color: '#5D5D5B',
+                              flexDirection: 'row',
                             }}
                           >
-                            Name: {getValues('name')}
-                          </Typography>
-                          <Typography
+                            <Typography
+                              variant="body1"
+                              component="div"
+                              sx={{
+                                display: 'flex',
+                                marginTop: 3,
+                                color: '#5D5D5B',
+                                marginRight: 2,
+                                fontWeight: 'bold',
+                              }}
+                            >
+                              Name:
+                            </Typography>
+                            <Typography
+                              variant="body1"
+                              component="div"
+                              sx={{
+                                display: 'flex',
+                                marginTop: 3,
+                                color: '#5D5D5B',
+                              }}
+                            >
+                              {getValues('name')}
+                            </Typography>
+                          </Box>
+                          {/* <Typography
                             variant="body2"
                             component="div"
                             sx={{
@@ -272,17 +332,61 @@ export default function Checkout() {
                             }}
                           >
                             Expire Date: {getValues('expireDate')}
-                          </Typography>
+                          </Typography> */}
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              flexDirection: 'row',
+                            }}
+                          >
+                            <Typography
+                              variant="body1"
+                              component="div"
+                              sx={{
+                                display: 'flex',
+                                marginTop: 2,
+                                color: '#5D5D5B',
+                                marginRight: 2,
+                                fontWeight: 'bold',
+                              }}
+                            >
+                              Zip Code:
+                            </Typography>
+                            <Typography
+                              variant="body1"
+                              component="div"
+                              sx={{
+                                display: 'flex',
+                                marginTop: 2,
+                                color: '#5D5D5B',
+                              }}
+                            >
+                              {getValues('zipCode')}
+                            </Typography>
+                          </Box>
                           <Typography
-                            variant="body2"
+                            variant="body1"
                             component="div"
                             sx={{
                               display: 'flex',
                               marginTop: 3,
                               color: '#5D5D5B',
+                              fontWeight: 'bold',
                             }}
                           >
-                            Zip Code: {getValues('zipCode')}
+                            Total Payment Amount
+                          </Typography>
+                          <Typography
+                            variant="body1"
+                            component="div"
+                            sx={{
+                              display: 'flex',
+                              color: '#5D5D5B',
+                              fontWeight: 'bold',
+                              fontSize: 36,
+                            }}
+                          >
+                            $10.00
                           </Typography>
                         </Box>
                       </Box>
