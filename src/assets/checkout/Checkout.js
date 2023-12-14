@@ -52,25 +52,18 @@ export default function Checkout() {
       try {
         console.log('here')
 
-        event.preventDefault();
+        // event.preventDefault();
 
         if (!stripe || !elements) {
           return;
         }
 
-        const cardNumberElement = elements.getElement(CardNumberElement);
-        const cardExpiryElement = elements.getElement(CardExpiryElement);
-        const cardCvcElement = elements.getElement(CardCvcElement);
-
         const paymentMethod = await stripe.createPaymentMethod({
           type: 'card',
-          card: {
-            number: cardNumberElement,
-            exp_month: cardExpiryElement,
-            exp_year: cardExpiryElement,
-            cvc: cardCvcElement,
-          },
+          card: elements.getElement(CardNumberElement),
         });
+
+        console.log(`paymentMethod: ${JSON.stringify(paymentMethod)}`)
 
         setPaymentMethod(paymentMethod);
 
@@ -184,8 +177,8 @@ export default function Checkout() {
     const amount = 1000;
     const currency = 'usd';
 
-    // const response = await fetch('https://api.authgate.work/create-payment-intent', {
-    const response = await fetch('http://localhost:3005/create-payment-intent', {
+    const response = await fetch('https://api.authgate.work/create-payment-intent', {
+    // const response = await fetch('http://localhost:3005/create-payment-intent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -309,7 +302,7 @@ export default function Checkout() {
                           >
                             Name: {getValues('name')}
                           </Typography>
-                          <Typography
+                          {/* <Typography
                             variant="body2"
                             component="div"
                             sx={{
@@ -330,7 +323,7 @@ export default function Checkout() {
                             }}
                           >
                             Expire Date: {getValues('expireDate')}
-                          </Typography>
+                          </Typography> */}
                           <Typography
                             variant="body2"
                             component="div"
@@ -341,6 +334,17 @@ export default function Checkout() {
                             }}
                           >
                             Zip Code: {getValues('zipCode')}
+                          </Typography>
+                                                    <Typography
+                            variant="body2"
+                            component="div"
+                            sx={{
+                              display: 'flex',
+                              marginTop: 3,
+                              color: '#5D5D5B',
+                            }}
+                          >
+                            Amount: $10.00
                           </Typography>
                         </Box>
                       </Box>
