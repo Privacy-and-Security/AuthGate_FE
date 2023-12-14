@@ -1,4 +1,3 @@
-
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Container } from '@mui/material';
@@ -31,7 +30,6 @@ import {
   CardExpiryElement,
 } from '@stripe/react-stripe-js';
 
-
 const steps = ['', '', ''];
 export default function Checkout() {
   const recaptchaRef = React.createRef();
@@ -50,7 +48,7 @@ export default function Checkout() {
     // get payment method from stripe before confirming
     if (activeStep === 0) {
       try {
-        console.log('here')
+        console.log('here');
 
         // event.preventDefault();
 
@@ -63,10 +61,9 @@ export default function Checkout() {
           card: elements.getElement(CardNumberElement),
         });
 
-        console.log(`paymentMethod: ${JSON.stringify(paymentMethod)}`)
+        console.log(`paymentMethod: ${JSON.stringify(paymentMethod)}`);
 
         setPaymentMethod(paymentMethod);
-
       } catch (error) {
         console.log(`error: ${error}`);
       }
@@ -159,8 +156,7 @@ export default function Checkout() {
     };
 
     return data;
-  }
-
+  };
 
   const onCompletePurchase = async () => {
     const data = getData();
@@ -173,12 +169,11 @@ export default function Checkout() {
   };
 
   const fetchPaymentIntentClientSecret = async (paymentMethod) => {
-
     const amount = 1000;
     const currency = 'usd';
 
     const response = await fetch('https://api.authgate.work/create-payment-intent', {
-    // const response = await fetch('http://localhost:3005/create-payment-intent', {
+      // const response = await fetch('http://localhost:3005/create-payment-intent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -187,7 +182,6 @@ export default function Checkout() {
         amount,
         currency,
         paymentMethodId: paymentMethod,
-
       }),
     });
 
@@ -195,24 +189,18 @@ export default function Checkout() {
     return data.clientSecret;
   };
 
-
-
-
   const submitPaymentToStripe = async () => {
     try {
       const paymentMethodId = paymentMethod.paymentMethod.id;
 
       const clientSecret = await fetchPaymentIntentClientSecret(paymentMethodId);
-
     } catch (error) {
       console.log(`error: ${error}`);
     }
   };
 
-
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-
       {/*-------Box is the layout of the whole page-----*/}
       <Box
         sx={{
@@ -288,20 +276,41 @@ export default function Checkout() {
                           sx={{
                             display: 'flex',
                             flexDirection: 'column',
+                            alignItems: 'center',
                             mb: 5,
                           }}
                         >
-                          <Typography
-                            variant="body2"
-                            component="div"
+                          <Box
                             sx={{
                               display: 'flex',
-                              marginTop: 3,
-                              color: '#5D5D5B',
+                              flexDirection: 'row',
                             }}
                           >
-                            Name: {getValues('name')}
-                          </Typography>
+                            <Typography
+                              variant="body1"
+                              component="div"
+                              sx={{
+                                display: 'flex',
+                                marginTop: 3,
+                                color: '#5D5D5B',
+                                marginRight: 2,
+                                fontWeight: 'bold',
+                              }}
+                            >
+                              Name:
+                            </Typography>
+                            <Typography
+                              variant="body1"
+                              component="div"
+                              sx={{
+                                display: 'flex',
+                                marginTop: 3,
+                                color: '#5D5D5B',
+                              }}
+                            >
+                              {getValues('name')}
+                            </Typography>
+                          </Box>
                           {/* <Typography
                             variant="body2"
                             component="div"
@@ -324,27 +333,60 @@ export default function Checkout() {
                           >
                             Expire Date: {getValues('expireDate')}
                           </Typography> */}
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              flexDirection: 'row',
+                            }}
+                          >
+                            <Typography
+                              variant="body1"
+                              component="div"
+                              sx={{
+                                display: 'flex',
+                                marginTop: 2,
+                                color: '#5D5D5B',
+                                marginRight: 2,
+                                fontWeight: 'bold',
+                              }}
+                            >
+                              Zip Code:
+                            </Typography>
+                            <Typography
+                              variant="body1"
+                              component="div"
+                              sx={{
+                                display: 'flex',
+                                marginTop: 2,
+                                color: '#5D5D5B',
+                              }}
+                            >
+                              {getValues('zipCode')}
+                            </Typography>
+                          </Box>
                           <Typography
-                            variant="body2"
+                            variant="body1"
                             component="div"
                             sx={{
                               display: 'flex',
                               marginTop: 3,
                               color: '#5D5D5B',
+                              fontWeight: 'bold',
                             }}
                           >
-                            Zip Code: {getValues('zipCode')}
+                            Total Payment Amount
                           </Typography>
-                                                    <Typography
-                            variant="body2"
+                          <Typography
+                            variant="body1"
                             component="div"
                             sx={{
                               display: 'flex',
-                              marginTop: 3,
                               color: '#5D5D5B',
+                              fontWeight: 'bold',
+                              fontSize: 36,
                             }}
                           >
-                            Amount: $10.00
+                            $10.00
                           </Typography>
                         </Box>
                       </Box>
@@ -732,6 +774,6 @@ export default function Checkout() {
           </Container>
         </Main>
       </Box>
-    </FormProvider >
+    </FormProvider>
   );
 }

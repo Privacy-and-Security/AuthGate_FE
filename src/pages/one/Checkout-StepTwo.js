@@ -90,20 +90,22 @@ export function FormGroupStepTwo() {
               {/* <CardNumberElement /> */}
               <div
                 style={{
-                  border: '1px solid #A0A0A0',
+                  border: '1px solid #edeef0',
                   padding: '10px',
                   borderRadius: '8px',
+                  height: 52,
+                  paddingTop: '15px',
                 }}
               >
                 <CardNumberElement
                   options={{
                     style: {
                       base: {
-                        fontSize: '18px',
-                        color: '#000000',
-                        border: '1px solid #000000',
+                        fontSize: '16px',
+                        color: '#363738',
+                        border: '1px solid #A0A0A0',
                         '::placeholder': {
-                          color: '#A0A0A0',
+                          color: '#c0c1c2',
                         },
                       },
                     },
@@ -124,20 +126,22 @@ export function FormGroupStepTwo() {
               {/* <CardCvcElement /> */}
               <div
                 style={{
-                  border: '1px solid #A0A0A0',
+                  border: '1px solid #edeef0',
                   padding: '10px',
                   borderRadius: '8px',
+                  height: 52,
+                  paddingTop: '15px',
                 }}
               >
                 <CardCvcElement
                   options={{
                     style: {
                       base: {
-                        fontSize: '18px',
-                        color: '#000000',
-                        border: '1px solid #000000',
+                        fontSize: '16px',
+                        color: '#363738',
+                        border: '1px solid #A0A0A0',
                         '::placeholder': {
-                          color: '#A0A0A0',
+                          color: '#c0c1c2',
                         },
                       },
                     },
@@ -169,20 +173,22 @@ export function FormGroupStepTwo() {
               {/* <CardExpiryElement /> */}
               <div
                 style={{
-                  border: '1px solid #A0A0A0',
+                  border: '1px solid #edeef0',
                   padding: '10px',
                   borderRadius: '8px',
+                  height: 52,
+                  paddingTop: '15px',
                 }}
               >
                 <CardExpiryElement
                   options={{
                     style: {
                       base: {
-                        fontSize: '18px',
-                        color: '#000000',
-                        border: '1px solid #000000',
+                        fontSize: '16px',
+                        color: '#363738',
+                        border: '1px solid #A0A0A0',
                         '::placeholder': {
-                          color: '#A0A0A0',
+                          color: '#c0c1c2',
                         },
                       },
                     },
