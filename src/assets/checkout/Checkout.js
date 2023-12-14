@@ -108,52 +108,11 @@ export default function Checkout() {
 
   const defaultValues = {
     name: '',
-    cardNumber: '',
-    cvv: '',
-    expireDate: null,
     zipCode: '',
   };
 
-  Yup.addMethod(Yup.string, 'expireDate', function (errorMessage) {
-    return this.test('expire-date', errorMessage, function (value) {
-      const { path, createError } = this;
-
-      const regex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
-      if (!value) {
-        return createError({ path, message: errorMessage || 'Expire date is required' });
-      } else if (!regex.test(value)) {
-        return createError({
-          path,
-          message: errorMessage || 'Expire date must be in MM/YY format',
-        });
-      }
-
-      const [month, year] = value.split('/');
-      const currentYear = new Date().getFullYear() % 100;
-      const currentMonth = new Date().getMonth() + 1;
-
-      const expYear = parseInt(year, 10);
-      const expMonth = parseInt(month, 10);
-
-      if (expYear < currentYear || (expYear === currentYear && expMonth < currentMonth)) {
-        return createError({ path, message: errorMessage || 'Expire date has passed' });
-      }
-
-      return true;
-    });
-  });
-
   const NewGroupSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
-    cardNumber: Yup.string()
-      .required('Card number is required')
-      .matches(/^[0-9]{16}$/, 'Card number must be 16 digits'),
-    cvv: Yup.string()
-      .required('CVV is required')
-      .matches(/^[0-9]{3,4}$/, 'CVV must be 3 or 4 digits'),
-    expireDate: Yup.string()
-      .required('Expire date is required')
-      .expireDate('Expire date is not valid'),
     zipCode: Yup.string()
       .required('Zip code is required')
       .matches(/^[0-9]{5}(-[0-9]{4})?$/, 'Zip code must be 5 digits or 5+4 digits'),
